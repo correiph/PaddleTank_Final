@@ -8,7 +8,7 @@
 #include "Entities/EntityManager.h"
 
 PowerUpEntity::PowerUpEntity(b2Body &body, TextureAtlas &atlas, std::string const &powerUpSpriteName, float density)
-	: Box2DGameEntity(body, atlas, powerUpSpriteName, FixtureType::CIRCLE, density)
+	: Box2DGameEntity(body, atlas, powerUpSpriteName, FixtureType::RECT, density)
 {
 	this->SetEntityType(POWERUP_ENTITY);
 	EntityMgr->RegisterEntity(this);

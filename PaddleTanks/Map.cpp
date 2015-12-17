@@ -12,9 +12,9 @@
 #include "PaddleTankGameEntity.h"
 #include "Messaging/Telegram.h"
 #include "PaddleTankEntityStates.h"
+#include "PowerUpEntity.h"
 #include "ScoreGameEntity.h"
 #include "tinyxml/tinyxml2.h"
-#include "PowerUpEntity.h"
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
