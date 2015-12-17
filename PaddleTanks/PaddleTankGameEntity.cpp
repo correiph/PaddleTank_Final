@@ -14,7 +14,7 @@
 
 PaddleTankGameEntity::PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, std::string const &tankSpriteName, std::string const &barrelSpriteName, float density, EntityState<PaddleTankGameEntity> *startState)
 	: Box2DGameEntity(body, atlas, tankSpriteName, FixtureType::RECT, density), m_stateMachine(nullptr),
-	m_barrelSprite(nullptr), m_mapEntID(-1), m_shotReady(true)
+	m_barrelSprite(nullptr), m_mapEntID(-1), m_shotReady(true), m_magazine(5)
 {
 	this->SetEntityType(PADDLE_TANK_ENTITY);
 	//Set the sprite to the correct position. Don't forget to convert units.
@@ -51,8 +51,11 @@ void PaddleTankGameEntity::Update(float delta) {
 
 bool PaddleTankGameEntity::HandleMessage(const Telegram& msg) {
 	switch (msg.Msg) {
-	case message_type::RELOAD:
+	case message_type::BULLETREADY:
 		m_shotReady = true;
+		return true;
+	case message_type::RELOAD:
+		m_magazine = 5;
 		return true;
 	default:
 		//You remember how the short circuiting works on the logical or right?
@@ -88,8 +91,11 @@ void PaddleTankGameEntity::Shoot() {
 	// collides with the spawning tank.
 	spawnData->Position = normBdir * ((float)m_barrelSprite->getTextureRect().width+18) + m_barrelSprite->getPosition();
 	spawnData->Direction = normBdir;
+	m_magazine--;
 	//Fire the shot
 	Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, this->ID(), m_mapEntID, message_type::SPAWN_BULLET, spawnData);
 	//Reload!
-	Dispatcher->DispatchMsg(MIN_TIME_BETWEEN_SHOTS, this->ID(), this->ID(), message_type::RELOAD, nullptr);
+	Dispatcher->DispatchMsg(MIN_TIME_BETWEEN_SHOTS, this->ID(), this->ID(), message_type::BULLETREADY, nullptr);
+
+	Dispatcher->DispatchMsg(MAGAZINE_RELOAD_TIME, this->ID(), this->ID(), message_type::RELOAD, nullptr);
 }
