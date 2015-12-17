@@ -24,7 +24,7 @@ public:
   virtual void Enter(entity_type*)=0;
 
   //this is the states normal update function
-  virtual void Execute(entity_type*)=0;
+  virtual void Execute(entity_type*, float delta)=0;
 
   //this will execute when the state is exited. 
   virtual void Exit(entity_type*)=0;

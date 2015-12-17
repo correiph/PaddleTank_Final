@@ -30,6 +30,7 @@ private:
 	PaddleTankHumanControlledEntityState(PaddleTankHumanControlledEntityState const &);
 	PaddleTankHumanControlledEntityState operator=(PaddleTankHumanControlledEntityState const &);
 
+	float m_idleTime;
 public:
 	static PaddleTankHumanControlledEntityState *Instance() {
 		static PaddleTankHumanControlledEntityState instance;
@@ -43,7 +44,7 @@ public:
 	virtual void Enter(PaddleTankGameEntity*);
 
 	//this is the states normal update function
-	virtual void Execute(PaddleTankGameEntity*);
+	virtual void Execute(PaddleTankGameEntity*, float delta);
 
 	//this will execute when the state is exited. 
 	// Deregisters Up, Down, and Space.
@@ -73,7 +74,7 @@ public:
 	virtual void Enter(PaddleTankGameEntity*);
 
 	//this is the states normal update function
-	virtual void Execute(PaddleTankGameEntity*);
+	virtual void Execute(PaddleTankGameEntity* , float delta);
 
 	//this will execute when the state is exited. 
 	// Deregisters Up, Down, and Space.

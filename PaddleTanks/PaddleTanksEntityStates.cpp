@@ -18,10 +18,11 @@ void PaddleTankHumanControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 	G_InputManager.RegisterKey(sf::Keyboard::Space); 
 	G_InputManager.RegisterKey(sf::Keyboard::W);
 	G_InputManager.RegisterKey(sf::Keyboard::S);
+	m_idleTime = 0.0f;
 }
 
 //this is the states normal update function
-void PaddleTankHumanControlledEntityState::Execute(PaddleTankGameEntity *entity) {
+void PaddleTankHumanControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
 	//Check for user up and down keypresses and moves the tank accordingly.
 	if (G_InputManager.isKeyDown(sf::Keyboard::W)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, -PADDLE_TANK_IMPULSE_POWER));
@@ -75,7 +76,7 @@ void PaddleTankHumanControlledIdleState::Enter(PaddleTankGameEntity *entity) {
 }
 
 //this is the states normal update function
-void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity) {
+void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity, float delta) {
 	//Check for user up and down keypresses and moves the tank accordingly.
 	if (G_InputManager.isKeyDown(sf::Keyboard::W)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, -PADDLE_TANK_IMPULSE_POWER));
