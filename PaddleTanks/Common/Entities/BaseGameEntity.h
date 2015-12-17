@@ -40,7 +40,7 @@ class BaseGameEntity
 {
 public:
   
-  enum {default_entity_type = -1, BOX2D_ENTITY = 1, PADDLE_TANK_ENTITY = 2};
+  enum {default_entity_type = -1, BOX2D_ENTITY = 1, PADDLE_TANK_ENTITY = 2, POWERUP_ENTITY = 3};
 
 private:
   
