@@ -78,6 +78,9 @@ void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 
 //this is the states normal update function
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity) {
+	/*
+	
+	*/
 	//Check for user up and down keypresses and moves the tank accordingly.
 	if (G_InputManager.isKeyDown(sf::Keyboard::W)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, -PADDLE_TANK_IMPULSE_POWER));
