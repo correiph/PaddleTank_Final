@@ -67,7 +67,7 @@ public:
 			return true;
 	}
 
-	//Fire a bullet from the tip of the barrel.
+	// Fire a bullet from the tip of the barrel.
 	// Note that this method does not enforce the restriction
 	// imposed by m_shotReady - it will spawn a bullet if called
 	// regardless of the value.
