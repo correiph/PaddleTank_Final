@@ -116,3 +116,27 @@ bool PaddleTankHumanControlledIdleState::OnMessage(PaddleTankGameEntity *entity,
 //
 // PaddleTankHumanControlledIdleState
 // End Class
+
+
+
+// PaddleTankAIControlledEntity
+
+//this is the states normal update function
+void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
+
+}
+
+void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
+
+}
+
+//this will execute when the state is exited. 
+void PaddleTankAIControlledEntityState::Exit(PaddleTankGameEntity *entity) {
+
+}
+
+//this executes if the agent receives a message from the 
+//message dispatcher
+bool PaddleTankAIControlledEntityState::OnMessage(PaddleTankGameEntity *entity, const Telegram& msg) {
+	return false;
+}

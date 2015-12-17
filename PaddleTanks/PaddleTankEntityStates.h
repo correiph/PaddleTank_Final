@@ -106,7 +106,7 @@ public:
 	void Enter(PaddleTankGameEntity*);
 
 	//this is the states normal update function
-	virtual void Execute(PaddleTankGameEntity*);
+	virtual void Execute(PaddleTankGameEntity*, float delta);
 
 	//this will execute when the state is exited. 
 	// Deregisters Up, Down, and Space.
