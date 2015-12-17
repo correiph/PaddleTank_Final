@@ -91,11 +91,15 @@ void PaddleTankGameEntity::Shoot() {
 	// collides with the spawning tank.
 	spawnData->Position = normBdir * ((float)m_barrelSprite->getTextureRect().width+18) + m_barrelSprite->getPosition();
 	spawnData->Direction = normBdir;
-	m_magazine--;
+	
 	//Fire the shot
 	Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, this->ID(), m_mapEntID, message_type::SPAWN_BULLET, spawnData);
 	//Reload!
 	Dispatcher->DispatchMsg(MIN_TIME_BETWEEN_SHOTS, this->ID(), this->ID(), message_type::BULLETREADY, nullptr);
-
-	Dispatcher->DispatchMsg(MAGAZINE_RELOAD_TIME, this->ID(), this->ID(), message_type::RELOAD, nullptr);
+	// only send the reload magazine message if there are 5 shots in magazine when first is fired
+	if (m_magazine == 5)
+	{
+		Dispatcher->DispatchMsg(MAGAZINE_RELOAD_TIME, this->ID(), this->ID(), message_type::RELOAD, nullptr);
+	}
+	m_magazine--;
 }
