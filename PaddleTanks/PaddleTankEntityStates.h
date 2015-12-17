@@ -16,12 +16,13 @@ class PaddleTankGameEntity;
 // entities to allow the states the ability to manipulate the internal state of the
 // entity objects.
 
-//A state for allowing human control of the tank. Remember that all states are supposed
+// A state for allowing human control of the tank. Remember that all states are supposed
 // to be singletons.
 // This state ensures that the tank moves when keys are pressed, that the 
 // barrel of the gun always follows the mouse, and that the tank fires when you
 // press the space bar. It internally enforces the reload time on the tank gun.
 // It also handles registering and deregistering the keys for controlling it.
+
 class PaddleTankHumanControlledEntityState : public EntityState<PaddleTankGameEntity>
 {
 private:
@@ -51,4 +52,15 @@ public:
 	//this executes if the agent receives a message from the 
 	//message dispatcher
 	virtual bool OnMessage(PaddleTankGameEntity*, const Telegram&);
+};
+
+class PaddleTankAIControlledEntityState : public EntityState<PaddleTankGameEntity>
+{
+private:
+	enum {
+		EVASIVE = 1,
+		CLAY_PIGEON = 2,
+		SHOOT_TO_SCORE = 3,
+		SHOOT_TO_KILL
+	};
 };
