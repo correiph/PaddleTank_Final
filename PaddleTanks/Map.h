@@ -93,6 +93,7 @@ private:
 	std::vector<Box2DGameEntity *> m_obstacles;
 	std::vector<Box2DGameEntity *> m_tanks;
 	std::list<Box2DGameEntity *> m_bullets;
+	//std::vector<PowerUpEntity *> m_powerups;
 
 	TiledBackground *m_background;
 	TextureAtlas *m_ta;
