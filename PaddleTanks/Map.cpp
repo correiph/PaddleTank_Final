@@ -188,8 +188,9 @@ bool Map::loadFromFile(std::string const &filename) {
 	//Iterate through all spawn points in the file and create a tank.
 	XMLElement *spawnPointsEl = mapEl->FirstChildElement("SpawnPoints");
 	XMLElement *spawnEl = spawnPointsEl->FirstChildElement("Spawn");
-	while (spawnEl != nullptr) {
-		//Spawn the paddle tanks here.
+	//while (spawnEl != nullptr)
+	{
+		//Spawn the first paddle tank here.
 		sf::Vector2f spawnPos;
 		spawnPos.x = spawnEl->FloatAttribute("x");
 		spawnPos.y = spawnEl->FloatAttribute("y");
@@ -200,23 +201,61 @@ bool Map::loadFromFile(std::string const &filename) {
 		tankBd.angle = angleDeg * RADIANS_PER_DEGREES;
 		tankBd.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * spawnPos);
 		tankBd.type = b2_dynamicBody;
-		b2Body *tankBod = m_world->CreateBody(&tankBd);
+		b2Body *tankBodOne = m_world->CreateBody(&tankBd);
 		//Check what kind of type of tank it is suppose to be, such as an AI controlled one or a user controlled one.
 		std::string type(spawnEl->Attribute("type"));
-		EntityState<PaddleTankGameEntity> *estate = nullptr;
+		EntityState<PaddleTankGameEntity> *estateOne = nullptr;
 		if (type == "human") {
-			estate = PaddleTankHumanControlledEntityState::Instance();
+			estateOne = PaddleTankHumanControlledEntityState::Instance();
 		}
 		else if (type == "simpleai") {
-			estate = PaddleTankAIControlledEntityState::Instance();
+			estateOne = PaddleTankAIControlledEntityState::Instance();
 		}
 
 		//Create the tank.
-		PaddleTankGameEntity *tank = new PaddleTankGameEntity(*tankBod, *m_ta, tankSprite, barrelSprite, PADDLE_TANK_DENSITY, estate );
-		tank->SetMapEntityID(this->ID());
-		m_tanks.push_back(tank);
+		PaddleTankGameEntity *tankOne = new PaddleTankGameEntity(*tankBodOne, *m_ta, tankSprite, barrelSprite, PADDLE_TANK_DENSITY, estateOne);
+		tankOne->SetMapEntityID(this->ID());
+		m_tanks.push_back(tankOne);
 		//Don't forget to get the next element.
 		spawnEl = spawnEl->NextSiblingElement("Spawn");
+
+		//Spawn the second paddle tank here.
+		//sf::Vector2f spawnPos;
+		spawnPos.x = spawnEl->FloatAttribute("x");
+		spawnPos.y = spawnEl->FloatAttribute("y");
+		angleDeg = spawnEl->FloatAttribute("a");
+		tankSprite = spawnEl->Attribute("tankSprite");
+		barrelSprite = spawnEl->Attribute("tankBarrelSprite");
+		//b2BodyDef tankBd;
+		tankBd.angle = angleDeg * RADIANS_PER_DEGREES;
+		tankBd.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * spawnPos);
+		tankBd.type = b2_dynamicBody;
+		b2Body *tankBodTwo = m_world->CreateBody(&tankBd);
+		//Check what kind of type of tank it is suppose to be, such as an AI controlled one or a user controlled one.
+		type = spawnEl->Attribute("type");
+		EntityState<PaddleTankGameEntity> *estateTwo = nullptr;
+		if (type == "human") {
+			estateTwo = PaddleTankHumanControlledEntityState::Instance();
+		}
+		else if (type == "simpleai") {
+			estateTwo = PaddleTankAIControlledEntityState::Instance();
+		}
+
+		//Create the tank.
+		PaddleTankGameEntity *tankTwo = new PaddleTankGameEntity(*tankBodTwo, *m_ta, tankSprite, barrelSprite, PADDLE_TANK_DENSITY, estateTwo);
+		tankTwo->SetMapEntityID(this->ID());
+		m_tanks.push_back(tankTwo);
+		//Don't forget to get the next element.
+		spawnEl = spawnEl->NextSiblingElement("Spawn");
+
+		if (estateOne == PaddleTankHumanControlledEntityState::Instance())
+		{
+			tankBodOne->SetUserData(tankTwo);
+		}
+		else
+		{
+			tankBodTwo->SetUserData(tankOne);
+		}
 	}
 	return true;
 }
