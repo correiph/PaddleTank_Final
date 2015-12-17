@@ -30,7 +30,6 @@ PaddleTankGameEntity::PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, st
 	}
 }
 
-
 PaddleTankGameEntity::~PaddleTankGameEntity()
 {
 	//clean up.

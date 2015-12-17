@@ -207,6 +207,10 @@ bool Map::loadFromFile(std::string const &filename) {
 		if (type == "human") {
 			estate = PaddleTankHumanControlledEntityState::Instance();
 		}
+		else if (type == "simpleai") {
+			estate = PaddleTankAIControlledEntityState::Instance();
+		}
+
 		//Create the tank.
 		PaddleTankGameEntity *tank = new PaddleTankGameEntity(*tankBod, *m_ta, tankSprite, barrelSprite, PADDLE_TANK_DENSITY, estate );
 		tank->SetMapEntityID(this->ID());
