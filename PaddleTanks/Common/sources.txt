@@ -1,0 +1,16 @@
+Files modified from Mat Buckland's
+Programming Game AI by Examples
+http://www.ai-junkie.com/books/toc_pgaibe.html
+2D/*
+Entites/*
+SFML/*
+Messaging/*
+misc/*
+
+Files taken from Anthony Lewis
+Managing Game States in C++
+http://gamedevgeek.com/tutorials/managing-game-states-in-c/
+GameStates/*
+
+See tinyxml-readme.md for
+tinyxml/*

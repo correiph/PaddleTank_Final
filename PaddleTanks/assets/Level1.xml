@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Map width="800" height="600">
+  <TextureAtlas file="assets/sheet_tanks.xml" />
+  <Background name="sand.png" />
+  <Obstacles>
+    <Circle name="barrelGrey_up.png" x="300" y="100" a="90" />
+    <Circle name="barrelGrey_up.png" x="500" y="100" a="90" />
+    <Rectangle name="sandbagBrown.png" x="400" y="300" a="90" />
+    <Circle name="barrelGrey_up.png" x="300" y="500" a="90" />
+    <Circle name="barrelGrey_up.png" x="500" y="500" a="90" />
+  </Obstacles>
+  <SpawnPoints>
+    <Spawn x="100" y="300" a="90" type="human" tankSprite="tankBlue_outline.png" tankBarrelSprite="barrelBlue_outline.png"/>
+    <Spawn x="700" y="300" a="90" type="simpleai" tankSprite="tankRed_outline.png" tankBarrelSprite="barrelRed_outline.png"/>
+  </SpawnPoints>
+</Map>

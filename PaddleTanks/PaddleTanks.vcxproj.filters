@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="GameStates">
+      <UniqueIdentifier>{d3f1627a-51ff-4b38-aad4-70ce9c98e051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{6a222ac6-4d63-4e45-92d9-a74886dd08fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EntityStates">
+      <UniqueIdentifier>{ad8e11f6-7a41-4754-939c-bf5a243c6d84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tinyxml2">
+      <UniqueIdentifier>{0c832637-fdbc-48cc-83d7-cac421828b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Licenses">
+      <UniqueIdentifier>{d2608097-5c40-450e-9fd9-44963d8723de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Drawables">
+      <UniqueIdentifier>{58277ea8-8cf1-4e3a-b796-90bfb709d212}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{d2c25dca-db5d-4d02-8c8d-82d07d0d43d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Assets">
+      <UniqueIdentifier>{7fe711d8-8417-4d8f-ad09-c42a53336d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{7c7fa539-6ebb-4077-8482-6f57988ab213}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common\GameStates\GameState.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Entities\BaseGameEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GameStates\GameManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\FSM\EntityState.h">
+      <Filter>EntityStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Entities\EntityManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Messaging\MessageDispatcher.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\FSM\EntityStateMachine.h">
+      <Filter>EntityStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\tinyxml\tinyxml2.h">
+      <Filter>tinyxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroGameState.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuGameState.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Box2DGameEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureAtlas.h">
+      <Filter>Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledBackground.h">
+      <Filter>Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2_math_utils.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayGameState.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PaddleTankGameEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="message_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Messaging\Telegram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PaddleTankEntityStates.h">
+      <Filter>EntityStates</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreGameEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Common\Entities\BaseGameEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GameStates\GameManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Entities\EntityManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Messaging\MessageDispatcher.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\tinyxml\tinyxml2.cpp">
+      <Filter>tinyxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="main_TankGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroGameState.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuGameState.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2DGameEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureAtlas.cpp">
+      <Filter>Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledBackground.cpp">
+      <Filter>Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayGameState.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PaddleTankGameEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="PaddleTanksEntityStates.cpp">
+      <Filter>EntityStates</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreGameEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Common\sources.txt">
+      <Filter>Resource Files\Licenses</Filter>
+    </Text>
+    <Text Include="assets\DroidSansMono_Apache License.txt">
+      <Filter>Resource Files\Assets</Filter>
+    </Text>
+    <Text Include="assets\sheet_tanks_license.txt">
+      <Filter>Resource Files\Assets</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Common\tinyxml-readme.md">
+      <Filter>Resource Files\Licenses</Filter>
+    </None>
+    <None Include="assets\Orbitron_Font_Open Font License.markdown">
+      <Filter>Resource Files\Assets</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\DroidSansMono.ttf">
+      <Filter>Resource Files\Assets</Filter>
+    </Font>
+    <Font Include="assets\Orbitron Black.ttf">
+      <Filter>Resource Files\Assets</Filter>
+    </Font>
+    <Font Include="assets\Orbitron Bold.ttf">
+      <Filter>Resource Files\Assets</Filter>
+    </Font>
+    <Font Include="assets\Orbitron Light.ttf">
+      <Filter>Resource Files\Assets</Filter>
+    </Font>
+    <Font Include="assets\Orbitron Medium.ttf">
+      <Filter>Resource Files\Assets</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="assets\Level1.xml">
+      <Filter>Resource Files\Assets</Filter>
+    </Xml>
+    <Xml Include="assets\sheet_tanks.xml">
+      <Filter>Resource Files\Assets</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\sheet_tanks.png">
+      <Filter>Resource Files\Assets</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
