@@ -10,6 +10,7 @@
 
 #include <Box2D/Box2D.h>
 
+#pragma region HumanEntityState
 // Begin Class
 // PaddleTankHumanControlledEntityState
 //
@@ -62,9 +63,9 @@ bool PaddleTankHumanControlledEntityState::OnMessage(PaddleTankGameEntity *entit
 //
 // PaddleTankHumanControlledEntityState
 // End Class
-
+#pragma endregion
 //Feel free to make more states
-
+#pragma region HumanIdleState
 // Begin Class
 // PaddleTankHumanControlledEntityState
 //
@@ -116,9 +117,9 @@ bool PaddleTankHumanControlledIdleState::OnMessage(PaddleTankGameEntity *entity,
 //
 // PaddleTankHumanControlledIdleState
 // End Class
+#pragma endregion
 
-
-
+#pragma region AIState
 // PaddleTankAIControlledEntity
 
 //this is the states normal update function
@@ -140,3 +141,4 @@ void PaddleTankAIControlledEntityState::Exit(PaddleTankGameEntity *entity) {
 bool PaddleTankAIControlledEntityState::OnMessage(PaddleTankGameEntity *entity, const Telegram& msg) {
 	return false;
 }
+#pragma endregion

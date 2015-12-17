@@ -22,7 +22,7 @@ class PaddleTankGameEntity;
 // barrel of the gun always follows the mouse, and that the tank fires when you
 // press the space bar. It internally enforces the reload time on the tank gun.
 // It also handles registering and deregistering the keys for controlling it.
-
+#pragma region PaddleTankHumanControlledEntityState
 class PaddleTankHumanControlledEntityState : public EntityState<PaddleTankGameEntity>
 {
 private:
@@ -54,7 +54,9 @@ public:
 	//message dispatcher
 	virtual bool OnMessage(PaddleTankGameEntity*, const Telegram&);
 };
+#pragma endregion
 
+#pragma region PaddleTankHumanControlledIdleState
 class PaddleTankHumanControlledIdleState : public EntityState<PaddleTankGameEntity>
 {
 private:
@@ -85,6 +87,9 @@ public:
 	//message dispatcher
 	virtual bool OnMessage(PaddleTankGameEntity*, const Telegram&);
 };
+#pragma endregion
+
+#pragma region PaddleTankAIControlledEntityState
 class PaddleTankAIControlledEntityState : public EntityState<PaddleTankGameEntity>
 {
 
@@ -116,3 +121,4 @@ public:
 	//message dispatcher
 	virtual bool OnMessage(PaddleTankGameEntity*, const Telegram&);
 };
+#pragma endregion
