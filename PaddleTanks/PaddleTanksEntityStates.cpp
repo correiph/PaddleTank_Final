@@ -16,17 +16,17 @@
 void PaddleTankHumanControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 	//REgister needed keys.
 	G_InputManager.RegisterKey(sf::Keyboard::Space); 
-	G_InputManager.RegisterKey(sf::Keyboard::Up);
-	G_InputManager.RegisterKey(sf::Keyboard::Down);
+	G_InputManager.RegisterKey(sf::Keyboard::W);
+	G_InputManager.RegisterKey(sf::Keyboard::S);
 }
 
 //this is the states normal update function
 void PaddleTankHumanControlledEntityState::Execute(PaddleTankGameEntity *entity) {
 	//Check for user up and down keypresses and moves the tank accordingly.
-	if (G_InputManager.isKeyDown(sf::Keyboard::Up)) {
+	if (G_InputManager.isKeyDown(sf::Keyboard::W)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, -PADDLE_TANK_IMPULSE_POWER));
 	}
-	if (G_InputManager.isKeyDown(sf::Keyboard::Down)) {
+	if (G_InputManager.isKeyDown(sf::Keyboard::S)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, PADDLE_TANK_IMPULSE_POWER));
 	}
 	//Get the mouse position and calculate the correct angle for the turret
@@ -48,8 +48,8 @@ void PaddleTankHumanControlledEntityState::Execute(PaddleTankGameEntity *entity)
 void PaddleTankHumanControlledEntityState::Exit(PaddleTankGameEntity *entity) {
 	//Deregister the keys.
 	G_InputManager.DeregisterKey(sf::Keyboard::Space);
-	G_InputManager.DeregisterKey(sf::Keyboard::Up);
-	G_InputManager.DeregisterKey(sf::Keyboard::Down);
+	G_InputManager.DeregisterKey(sf::Keyboard::W);
+	G_InputManager.DeregisterKey(sf::Keyboard::S);
 }
 
 //this executes if the agent receives a message from the 

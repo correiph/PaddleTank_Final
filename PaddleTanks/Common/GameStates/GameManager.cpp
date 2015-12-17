@@ -129,7 +129,7 @@ void GameManager::Run()
 {
 	//Create a gameclock and set the times.
 	sf::Clock gameClock;
-	float delta = 1.0f / 30.0f; //30 frames per second.
+	float delta = 1.0f / 60.0f; //60 frames per second.
 	float gameTime = 0.0f;
 	float currentTime = 0.0f;
 	//Main gameplay loop.
