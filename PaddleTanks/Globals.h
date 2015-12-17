@@ -14,6 +14,6 @@ float const DEGREES_PER_RADIANS = 1.0f / RADIANS_PER_DEGREES;
 float const PADDLE_TANK_DENSITY = 100000.0f;
 float const PADDLE_TANK_IMPULSE_POWER = 1000000.0f;
 
-float const MIN_TIME_BETWEEN_SHOTS = 0.5f;
+float const MIN_TIME_BETWEEN_SHOTS = 0.1f;
 
 float const BOUNDARY_WALLS_HEIGHT = 2.0f; //in meters
