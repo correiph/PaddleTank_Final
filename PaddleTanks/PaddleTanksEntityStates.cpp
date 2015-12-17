@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "Messaging\MessageDispatcher.h"
 #include "message_types.h"
+#include "time.h"
 
 #include <Box2D/Box2D.h>
 
@@ -124,11 +125,11 @@ bool PaddleTankHumanControlledIdleState::OnMessage(PaddleTankGameEntity *entity,
 
 //this is the states normal update function
 void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
-
+	srand(time(NULL));
 }
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
-
+	
 }
 
 //this will execute when the state is exited. 

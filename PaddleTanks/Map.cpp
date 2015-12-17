@@ -212,7 +212,7 @@ bool Map::loadFromFile(std::string const &filename) {
 			estateOne = PaddleTankAIControlledEntityState::Instance();
 		}
 
-		//Create the tank.
+		//Create tank one.
 		PaddleTankGameEntity *tankOne = new PaddleTankGameEntity(*tankBodOne, *m_ta, tankSprite, barrelSprite, PADDLE_TANK_DENSITY, estateOne);
 		tankOne->SetMapEntityID(this->ID());
 		m_tanks.push_back(tankOne);

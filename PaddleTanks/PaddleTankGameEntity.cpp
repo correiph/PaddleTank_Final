@@ -102,3 +102,4 @@ void PaddleTankGameEntity::Shoot() {
 	}
 	m_magazine--;
 }
+
