@@ -38,7 +38,7 @@ void PaddleTankHumanControlledEntityState::Execute(PaddleTankGameEntity *entity)
 	entity->SetTurretAngle(angleRads);
 	//Fires the gun if a shot is ready.
 	if (G_InputManager.isKeyDown(sf::Keyboard::Space) || G_InputManager.isMouseButtonDown(sf::Mouse::Left)) {
-		if (entity->IsShotReady()) {
+		if (entity->IsShotReady() && entity->BulletsInMagazine()) {
 			entity->Shoot();
 		}
 	}

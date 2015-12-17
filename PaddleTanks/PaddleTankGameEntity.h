@@ -60,7 +60,13 @@ public:
 	bool IsShotReady() {
 		return m_shotReady;
 	}
-	
+	bool BulletsInMagazine(){
+		if (m_magazine == 0)
+			return false;
+		else
+			return true;
+	}
+
 	//Fire a bullet from the tip of the barrel.
 	// Note that this method does not enforce the restriction
 	// imposed by m_shotReady - it will spawn a bullet if called
@@ -79,6 +85,6 @@ protected:
 	//Value that controls whether or not the tank is in a state in which it can 
 	// shoot. Used to throttle the shot rate.
 	bool m_shotReady;
-
+	int m_magazine;
 };
 

@@ -4,7 +4,8 @@ namespace message_type {
 		ERROR = -1,
 		NONE = 0,
 		SPAWN_BULLET = 1, //ExtraInfo contains (SpawnBulletData *)
-		RELOAD = 2,
+		BULLETREADY = 2,
+		RELOAD = 3,
 	};
 };
 
