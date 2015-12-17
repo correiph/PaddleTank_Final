@@ -1,6 +1,7 @@
 #include "Globals.h"
 
 #include "PaddleTankGameEntity.h"
+#include "PaddleTankEntityStates.h"
 
 #include "FSM/EntityStateMachine.h"
 #include "vector2_math_utils.h"
@@ -55,6 +56,12 @@ bool PaddleTankGameEntity::HandleMessage(const Telegram& msg) {
 		return true;
 	case message_type::RELOAD:
 		m_magazine = 5;
+		return true;
+	case message_type::TOACTIVE:
+		m_stateMachine->ChangeState(PaddleTankHumanControlledEntityState::Instance());
+		return true;
+	case message_type::TOIDLE:
+		m_stateMachine->ChangeState(PaddleTankHumanControlledIdleState::Instance());
 		return true;
 	default:
 		//You remember how the short circuiting works on the logical or right?

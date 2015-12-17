@@ -24,12 +24,15 @@ void PaddleTankHumanControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 
 //this is the states normal update function
 void PaddleTankHumanControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
+	m_notIdle = false;
 	//Check for user up and down keypresses and moves the tank accordingly.
 	if (G_InputManager.isKeyDown(sf::Keyboard::W)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, -PADDLE_TANK_IMPULSE_POWER));
+		m_notIdle = true;
 	}
 	if (G_InputManager.isKeyDown(sf::Keyboard::S)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, PADDLE_TANK_IMPULSE_POWER));
+		m_notIdle = true;
 	}
 	//Get the mouse position and calculate the correct angle for the turret
 	sf::Vector2f mousePos = vec2utils::ConvertVectorType<sf::Vector2i, sf::Vector2f>(G_InputManager.mousePosition());
@@ -43,7 +46,15 @@ void PaddleTankHumanControlledEntityState::Execute(PaddleTankGameEntity *entity,
 		if (entity->IsShotReady() && entity->BulletsInMagazine()) {
 			entity->Shoot();
 		}
+		m_notIdle = true;
 	}
+	if (m_notIdle == false)
+		m_idleTime += delta;
+	else
+		m_idleTime = 0.0f;
+
+	if (m_idleTime >= 1.0f)
+		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOIDLE, nullptr);
 }
 
 //this will execute when the state is exited. 
@@ -81,9 +92,11 @@ void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity, f
 	//Check for user up and down keypresses and moves the tank accordingly.
 	if (G_InputManager.isKeyDown(sf::Keyboard::W)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, -PADDLE_TANK_IMPULSE_POWER));
+		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);
 	}
 	if (G_InputManager.isKeyDown(sf::Keyboard::S)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, PADDLE_TANK_IMPULSE_POWER));
+		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);
 	}
 	//Get the mouse position and calculate the correct angle for the turret
 	sf::Vector2f mousePos = sf::Vector2f(0.0f,0.0f);//vec2utils::ConvertVectorType<sf::Vector2i, sf::Vector2f>(G_InputManager.mousePosition());
@@ -97,6 +110,7 @@ void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity, f
 		if (entity->IsShotReady() && entity->BulletsInMagazine()) {
 			entity->Shoot();
 		}
+		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);
 	}
 }
 
@@ -106,6 +120,7 @@ void PaddleTankHumanControlledIdleState::Exit(PaddleTankGameEntity *entity) {
 	G_InputManager.DeregisterKey(sf::Keyboard::Space);
 	G_InputManager.DeregisterKey(sf::Keyboard::W);
 	G_InputManager.DeregisterKey(sf::Keyboard::S);
+	
 }
 
 //this executes if the agent receives a message from the 
