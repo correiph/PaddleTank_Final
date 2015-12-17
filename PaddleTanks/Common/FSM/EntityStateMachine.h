@@ -12,7 +12,7 @@
 //
 //  Author: Mat Buckland (fup@ai-junkie.com)
 //	Modified: Kevin Forest 2015
-//
+//	Further Modified: Philip Correia 2015
 //------------------------------------------------------------------------
 #include "EntityState.h"
 #include "Messaging/Telegram.h"
@@ -54,13 +54,13 @@ public:
   //void SetPreviousState(EntityState<entity_type>* s){ m_pPreviousState = s; }
   
   //call this to update the FSM
-  void  Update()const
+  void  Update(float delta)const
   {
     //if a global state exists, call its execute method, else do nothing
-    if(m_pGlobalState)   m_pGlobalState->Execute(m_pOwner);
+    if(m_pGlobalState)   m_pGlobalState->Execute(m_pOwner, delta);
 
     //same for the current state
-    if (m_pCurrentState) m_pCurrentState->Execute(m_pOwner);
+    if (m_pCurrentState) m_pCurrentState->Execute(m_pOwner, delta);
   }
 
   bool  HandleMessage(const Telegram& msg)const

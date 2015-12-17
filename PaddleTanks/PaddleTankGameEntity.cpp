@@ -45,7 +45,7 @@ void PaddleTankGameEntity::Update(float delta) {
 	m_barrelSprite->setPosition(m_sprite->getPosition());
 	//Update the state machine. This will, among other things, handle
 	// the barrels rotation.
-	m_stateMachine->Update();
+	m_stateMachine->Update(delta);
 }
 
 bool PaddleTankGameEntity::HandleMessage(const Telegram& msg) {
