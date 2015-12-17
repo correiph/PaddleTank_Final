@@ -64,18 +64,20 @@ bool PaddleTankHumanControlledEntityState::OnMessage(PaddleTankGameEntity *entit
 
 //Feel free to make more states
 
+
+
+
+
+
 // Begin Class
-// PaddleTankHumanControlledEntityState
-//
-void PaddleTankHumanControlledIdleState::Enter(PaddleTankGameEntity *entity) {
-	//REgister needed keys.
-	G_InputManager.RegisterKey(sf::Keyboard::Space);
-	G_InputManager.RegisterKey(sf::Keyboard::W);
-	G_InputManager.RegisterKey(sf::Keyboard::S);
+// PaddleTankAIControlledEntityState
+
+void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
+
 }
 
 //this is the states normal update function
-void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity) {
+void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity) {
 	//Check for user up and down keypresses and moves the tank accordingly.
 	if (G_InputManager.isKeyDown(sf::Keyboard::W)) {
 		entity->ApplyLinearImpulse(b2Vec2(0.0f, -PADDLE_TANK_IMPULSE_POWER));
@@ -99,16 +101,13 @@ void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity) {
 }
 
 //this will execute when the state is exited. 
-void PaddleTankHumanControlledIdleState::Exit(PaddleTankGameEntity *entity) {
-	//Deregister the keys.
-	G_InputManager.DeregisterKey(sf::Keyboard::Space);
-	G_InputManager.DeregisterKey(sf::Keyboard::W);
-	G_InputManager.DeregisterKey(sf::Keyboard::S);
+void PaddleTankAIControlledEntityState::Exit(PaddleTankGameEntity *entity) {
+
 }
 
 //this executes if the agent receives a message from the 
 //message dispatcher
-bool PaddleTankHumanControlledIdleState::OnMessage(PaddleTankGameEntity *entity, const Telegram& msg) {
+bool PaddleTankAIControlledEntityState::OnMessage(PaddleTankGameEntity *entity, const Telegram& msg) {
 	return false;
 }
 
