@@ -53,7 +53,36 @@ public:
 	//message dispatcher
 	virtual bool OnMessage(PaddleTankGameEntity*, const Telegram&);
 };
+class PaddleTankHumanControlledIdleState : public EntityState<PaddleTankGameEntity>
+{
+private:
+	PaddleTankHumanControlledIdleState() { }
+	PaddleTankHumanControlledIdleState(PaddleTankHumanControlledIdleState const &);
+	PaddleTankHumanControlledIdleState operator=(PaddleTankHumanControlledIdleState const &);
 
+public:
+	static PaddleTankHumanControlledIdleState *Instance() {
+		static PaddleTankHumanControlledIdleState instance;
+		return &instance;
+	}
+
+	virtual ~PaddleTankHumanControlledIdleState(){}
+
+	//this will execute when the state is entered
+	// Registers Up, Down, and Space.
+	virtual void Enter(PaddleTankGameEntity*);
+
+	//this is the states normal update function
+	virtual void Execute(PaddleTankGameEntity*);
+
+	//this will execute when the state is exited. 
+	// Deregisters Up, Down, and Space.
+	virtual void Exit(PaddleTankGameEntity*);
+
+	//this executes if the agent receives a message from the 
+	//message dispatcher
+	virtual bool OnMessage(PaddleTankGameEntity*, const Telegram&);
+};
 class PaddleTankAIControlledEntityState : public EntityState<PaddleTankGameEntity>
 {
 private:
