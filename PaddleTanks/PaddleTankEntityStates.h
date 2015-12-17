@@ -53,14 +53,3 @@ public:
 	//message dispatcher
 	virtual bool OnMessage(PaddleTankGameEntity*, const Telegram&);
 };
-
-class PaddleTankAIControlledEntityState : public EntityState<PaddleTankGameEntity>
-{
-private:
-	enum {
-		EVASIVE = 1,
-		CLAY_PIGEON = 2,
-		SHOOT_TO_SCORE = 3,
-		SHOOT_TO_KILL
-	};
-};
