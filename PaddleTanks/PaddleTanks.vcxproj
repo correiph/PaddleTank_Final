@@ -16,6 +16,7 @@
     <ClInclude Include="message_types.h" />
     <ClInclude Include="PaddleTankGameEntity.h" />
     <ClInclude Include="PlayGameState.h" />
+    <ClInclude Include="PowerUpEntity.h" />
     <ClInclude Include="ScoreGameEntity.h" />
     <ClInclude Include="TiledBackground.h" />
     <ClInclude Include="Box2DGameEntity.h" />
@@ -41,6 +42,7 @@
     <ClCompile Include="PaddleTankGameEntity.cpp" />
     <ClCompile Include="PaddleTanksEntityStates.cpp" />
     <ClCompile Include="PlayGameState.cpp" />
+    <ClCompile Include="PowerUpEntity.cpp" />
     <ClCompile Include="ScoreGameEntity.cpp" />
     <ClCompile Include="TiledBackground.cpp" />
     <ClCompile Include="Box2DGameEntity.cpp" />

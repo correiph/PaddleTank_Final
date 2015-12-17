@@ -6,6 +6,8 @@ namespace message_type {
 		SPAWN_BULLET = 1, //ExtraInfo contains (SpawnBulletData *)
 		BULLETREADY = 2,
 		RELOAD = 3,
+		TOIDLE = 4,
+		TOACTIVE = 5,
 	};
 };
 
