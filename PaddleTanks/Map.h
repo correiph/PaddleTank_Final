@@ -94,7 +94,7 @@ private:
 	std::vector<Box2DGameEntity *> m_tanks;
 	std::list<Box2DGameEntity *> m_bullets;
 	std::vector<Box2DGameEntity *> m_powerups;
-	std::vector<BaseGameEntity *> m_stats;
+	//std::vector<BaseGameEntity *> m_stats;
 
 	TankStatsGameEntity *rtsge;
 	TankStatsGameEntity *ltsge;

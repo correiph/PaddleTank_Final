@@ -32,6 +32,14 @@ void PowerUpEntity::ApplyLinearImpulse(b2Vec2 imp) {
 	m_body->ApplyLinearImpulse(imp, m_body->GetPosition(), true);
 }
 
+void PowerUpEntity::Action(){
+
+}
+
+int PowerUpEntity::GetPowerUpType(){
+	return m_powerUpType;
+}
+
 void PowerUpEntity::Update(float delta) {
 	//First update the base class, which among other things will set the
 	// tank body sprites position based on the box2d bodies position. 
