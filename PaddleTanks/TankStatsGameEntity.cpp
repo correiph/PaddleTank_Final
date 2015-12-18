@@ -32,7 +32,7 @@ void TankStatsGameEntity::regenHealth() {
 	//Use a string stream to convert the current score integer into a string.
 	std::stringstream ssh;
 	ssh << "Health: ";
-	ssh << m_health;
+	ssh << (int)m_health;
 	m_textHealth->setString(ssh.str());
 	/*std::string output;
 	std::stringstream ss;
@@ -51,7 +51,7 @@ void TankStatsGameEntity::regenHealth() {
 void TankStatsGameEntity::regenPower() {
 	std::stringstream ssp;
 	ssp << "\nPower: ";
-	ssp << m_power;
+	ssp << (int)m_power;
 	m_textPower->setString(ssp.str());
 }
 

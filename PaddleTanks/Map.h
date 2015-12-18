@@ -1,10 +1,10 @@
 #pragma once
-
+#include "TankStatsGameEntity.h"
 #include "Entities/BaseGameEntity.h"
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
-#include "TankStatsGameEntity.h"
+
 #include <vector>
 #include <list>
 

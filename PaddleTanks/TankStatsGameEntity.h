@@ -1,7 +1,6 @@
 #pragma once
-
+//#include "Globals.h"
 #include "Entities/BaseGameEntity.h"
-
 #include <SFML/Graphics/Drawable.hpp>
 
 namespace sf {
@@ -43,22 +42,24 @@ public:
 	}
 
 	//power management
-	void RegeneratePower() {
-		m_power++;
+	void RegeneratePower(float val) {
+		if (!(m_power >= 100))
+			m_power += val;
 		regenPower();
 	}
-	void LosePower() {
-		m_power = m_power--;
+	void LosePower(float val) {
+		m_power -= val;
 		regenPower();
 	}
 
 	//health management
-	void LoseHealth() {
-		m_health -= 10;
+	void LoseHealth(float val) {
+		m_health -= val;
 		regenHealth();
 	}
-	void RegenerateHealth() {
-		m_health++;
+	void RegenerateHealth(float val) {
+		if (!(m_health >= 100))
+			m_health += val;
 		regenHealth();
 	}
 
@@ -91,8 +92,8 @@ private:
 	//The visual representation of the current score.
 	sf::Text *m_textHealth, *m_textPower;
 	//Tne numerical values for tank stats
-	int m_health;
-	int m_power;
+	float m_health;
+	float m_power;
 	//map ID
 	int m_mapEntID;
 	//Method that updates m_text such that it reads the current value of m_currentScore.

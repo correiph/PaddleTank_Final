@@ -1,6 +1,7 @@
 #pragma once
-#include "Box2DGameEntity.h"
 #include "TankStatsGameEntity.h"
+#include "Box2DGameEntity.h"
+
 struct b2Vec2;
 
 class Map;
@@ -29,7 +30,7 @@ class PaddleTankGameEntity :
 {
 public:
 	//Create a tank.
-	PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, std::string const &tankSpriteName, std::string const &barrelSpriteName, float density = 1.0f, EntityState<PaddleTankGameEntity> *startState = nullptr);
+	PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, std::string const &tankSpriteName, std::string const &barrelSpriteName, int statsTextOffset, int mapWidthPx, int mapHeightPx, sf::Color statsTextColor, b2Vec2 statsTextPosition, float density = 1.0f, EntityState<PaddleTankGameEntity> *startState = nullptr);
 	virtual ~PaddleTankGameEntity();
 
 	//Update the position of the tank and the tanks state machine.
@@ -45,7 +46,7 @@ public:
 		m_mapEntID = eid;
 	}
 
-	TankStatsGameEntity *m_stats;
+	
 
 	//Get the state machine - used for changing states.
 	StateMachine<PaddleTankGameEntity>* GetFSM() const { 
@@ -68,7 +69,9 @@ public:
 		else
 			return true;
 	}
-
+	TankStatsGameEntity* getStats(){
+		return m_stats;
+	}
 	// Fire a bullet from the tip of the barrel.
 	// Note that this method does not enforce the restriction
 	// imposed by m_shotReady - it will spawn a bullet if called
@@ -82,7 +85,7 @@ protected:
 	//Render the sprite.
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite *m_barrelSprite;
-	
+	TankStatsGameEntity *m_stats;
 	//Id of the map that contains this entity. When you want to fire a bullet, send
 	/// a message to the map via the dispatcher.
 	int m_mapEntID;

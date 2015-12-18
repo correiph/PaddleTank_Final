@@ -133,32 +133,32 @@ bool Map::loadFromFile(std::string const &filename) {
 	}
 	//create stats display on bottom
 	{
-		b2BodyDef sdef;
-		sdef.position.Set(0.5f, 0.5f);
-		sdef.type = b2_staticBody;
-		b2Body *sbod = m_world->CreateBody(&sdef);
-		b2PolygonShape sshp;
-		sshp.SetAsBox(1.0f, 1.0f);
-		b2FixtureDef sfdef;
-		sfdef.shape = &sshp;
-		sfdef.isSensor = true;
-		sbod->CreateFixture(&sfdef);
+		//b2BodyDef sdef;
+		//sdef.position.Set(0.5f, 0.5f);
+		//sdef.type = b2_staticBody;
+		//b2Body *sbod = m_world->CreateBody(&sdef);
+		//b2PolygonShape sshp;
+		//sshp.SetAsBox(1.0f, 1.0f);
+		//b2FixtureDef sfdef;
+		//sfdef.shape = &sshp;
+		//sfdef.isSensor = true;
+		//sbod->CreateFixture(&sfdef);
 
-		//The right scoring entity gets associated with the left scoring wall.
-		rtsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f + 220, 600 * 0.87), sf::Color::Blue);
-		sbod->SetUserData(rtsge);
-		rtsge->CurrentHealthPower();
-		m_stats.push_back(rtsge);
+		////The right scoring entity gets associated with the left scoring wall.
+		//rtsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f + 220, 600 * 0.87), sf::Color::Blue);
+		//sbod->SetUserData(rtsge);
+		//rtsge->CurrentHealthPower();
+		//m_stats.push_back(rtsge);
 
-		sdef.position.x = 1.0f;
-		b2Body *s2bod = m_world->CreateBody(&sdef);
-		s2bod->CreateFixture(&sfdef);
+		//sdef.position.x = 1.0f;
+		//b2Body *s2bod = m_world->CreateBody(&sdef);
+		//s2bod->CreateFixture(&sfdef);
 
-		//The left scoring entity gets associated with the right scoring wall.
-		ltsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f - 380, mapHeightPx * 0.87), sf::Color::Red);
-		s2bod->SetUserData(ltsge);
-		ltsge->CurrentHealthPower();
-		m_stats.push_back(ltsge);
+		////The left scoring entity gets associated with the right scoring wall.
+		//ltsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f - 380, mapHeightPx * 0.87), sf::Color::Red);
+		//s2bod->SetUserData(ltsge);
+		//ltsge->CurrentHealthPower();
+		//m_stats.push_back(ltsge);
 	}
 	//Create the boundary walls.
 	{
@@ -246,9 +246,11 @@ bool Map::loadFromFile(std::string const &filename) {
 		}
 
 		//Create tank one.
-		PaddleTankGameEntity *tankOne = new PaddleTankGameEntity(*tankBodOne, *m_ta, tankSprite, barrelSprite, PADDLE_TANK_DENSITY, estateOne);
+		PaddleTankGameEntity *tankOne = new PaddleTankGameEntity(*tankBodOne, *m_ta, tankSprite, barrelSprite, -380, mapWidthPx, mapHeightPx, sf::Color::Blue, b2Vec2(0.5f, 0.5f), PADDLE_TANK_DENSITY, estateOne);
 		tankOne->SetMapEntityID(this->ID());
 		m_tanks.push_back(tankOne);
+		m_stats.push_back(tankOne->getStats());
+		tankOne->getStats()->CurrentHealthPower();
 		//Don't forget to get the next element.
 		spawnEl = spawnEl->NextSiblingElement("Spawn");
 
@@ -275,16 +277,18 @@ bool Map::loadFromFile(std::string const &filename) {
 		}
 
 		//Create the tank.
-		PaddleTankGameEntity *tankTwo = new PaddleTankGameEntity(*tankBodTwo, *m_ta, tankSprite, barrelSprite, PADDLE_TANK_DENSITY, estateTwo);
+		PaddleTankGameEntity *tankTwo = new PaddleTankGameEntity(*tankBodTwo, *m_ta, tankSprite, barrelSprite, 220, mapWidthPx, mapHeightPx, sf::Color::Red, b2Vec2(1.0f, 0.5f), PADDLE_TANK_DENSITY, estateTwo);
 		tankTwo->SetMapEntityID(this->ID());
 		m_tanks.push_back(tankTwo);
+		m_stats.push_back(tankTwo->getStats());
+		tankTwo->getStats()->CurrentHealthPower();
 		//Don't forget to get the next element.
 		spawnEl = spawnEl->NextSiblingElement("Spawn");
 
 		if (estateOne == PaddleTankHumanControlledEntityState::Instance())
 		{
-			tankOne->m_stats = ltsge;
-			tankTwo->m_stats = rtsge;
+			/*tankOne->m_stats = ltsge;
+			tankTwo->m_stats = rtsge;*/
 			/*std::vector<void *> *userdataright = &std::vector<void *>();
 			userdataright->push_back(tankBodTwo->GetUserData());
 			userdataright->push_back(rtsge);
@@ -298,8 +302,8 @@ bool Map::loadFromFile(std::string const &filename) {
 		}
 		else
 		{
-			tankOne->m_stats = rtsge;
-			tankTwo->m_stats = ltsge;
+			/*tankOne->m_stats = rtsge;
+			tankTwo->m_stats = ltsge;*/
 			/*std::vector<void *> *userdataright = &std::vector<void *>();
 			std::vector<void *> *userdataleft = &std::vector<void *>();
 			userdataright->push_back(tankBodTwo->GetUserData());

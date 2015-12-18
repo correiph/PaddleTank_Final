@@ -13,7 +13,7 @@
 #include <Box2D/Box2D.h>
 #include <SFML/Graphics.hpp>
 
-PaddleTankGameEntity::PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, std::string const &tankSpriteName, std::string const &barrelSpriteName, float density, EntityState<PaddleTankGameEntity> *startState)
+PaddleTankGameEntity::PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, std::string const &tankSpriteName, std::string const &barrelSpriteName, int statsTextOffset, int mapWidthPx, int mapHeightPx, sf::Color statsTextColor, b2Vec2 statsTextPosition, float density, EntityState<PaddleTankGameEntity> *startState)
 	: Box2DGameEntity(body, atlas, tankSpriteName, FixtureType::RECT, density), m_stateMachine(nullptr),
 	m_barrelSprite(nullptr), m_mapEntID(-1), m_shotReady(true), m_magazine(5)
 {
@@ -29,6 +29,21 @@ PaddleTankGameEntity::PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, st
 		m_stateMachine->SetCurrentState(startState);
 		m_stateMachine->CurrentState()->Enter(this);
 	}
+
+	b2BodyDef sdef;
+	sdef.position.Set(statsTextPosition.x, statsTextPosition.y);
+	sdef.type = b2_staticBody;
+	b2Body *sbod = m_body->GetWorld()->CreateBody(&sdef);
+	b2PolygonShape sshp;
+	sshp.SetAsBox(1.0f, 1.0f);
+	b2FixtureDef sfdef;
+	sfdef.shape = &sshp;
+	sfdef.isSensor = true;
+	sbod->CreateFixture(&sfdef);
+
+	//The right scoring entity gets associated with the left scoring wall.
+	m_stats = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f + statsTextOffset, mapHeightPx * 0.87), statsTextColor);
+	sbod->SetUserData(m_stats);
 }
 
 PaddleTankGameEntity::~PaddleTankGameEntity()
@@ -64,7 +79,7 @@ bool PaddleTankGameEntity::HandleMessage(const Telegram& msg) {
 		m_stateMachine->ChangeState(PaddleTankHumanControlledIdleState::Instance());
 		return true;
 	case message_type::HIT:
-		m_stats->LoseHealth();
+		m_stats->LoseHealth(HEALTH_DAMAGE_HIT);
 		return true;
 	default:
 		//You remember how the short circuiting works on the logical or right?
@@ -93,7 +108,7 @@ void PaddleTankGameEntity::Shoot() {
 	float barrelDirRads = m_barrelSprite->getRotation() * RADIANS_PER_DEGREES;
 	sf::Vector2f normBdir(std::cos(barrelDirRads), std::sin(barrelDirRads));
 	m_shotReady = false;
-	m_stats->LosePower();
+	m_stats->LosePower(POWER_DRAIN_SHOT);
 	SpawnBulletData *spawnData = new SpawnBulletData();
 	//The +18 is to account for the fact that if you spawn the bullet such that it's centroid is at the
 	// far top of the barrel of the tank gun, the bullet may immediately hit the tank when the barrel is

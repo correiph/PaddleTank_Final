@@ -64,7 +64,7 @@ private:
 	PaddleTankHumanControlledIdleState(PaddleTankHumanControlledIdleState const &);
 	PaddleTankHumanControlledIdleState operator=(PaddleTankHumanControlledIdleState const &);
 
-	float m_idleTime;
+	bool m_notIdle;
 public:
 	static PaddleTankHumanControlledIdleState *Instance() {
 		static PaddleTankHumanControlledIdleState instance;
