@@ -158,9 +158,21 @@ void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
 	
-	StrafeUpAndDown(entity, delta);
-	AimAtPlayer(entity);
-	Attack(entity, delta);
+	AI_DIFFICULTY ai_difficulty = AI_DIFFICULTY::EASY;
+
+	if (ai_difficulty == AI_DIFFICULTY::EASY) {
+		StrafeUpAndDown(entity, delta);
+		AimAtPlayer(entity);
+		AutoAttack(entity, delta);
+	}
+	else if (ai_difficulty == AI_DIFFICULTY::NORMAL) {
+		AutoAttack(entity, delta);
+	}
+	else if (ai_difficulty == AI_DIFFICULTY::HARD) {
+		StrafeUpAndDown(entity, delta);
+	}
+
+	
 
 
 	// Dispatcher->DispatchDelayedMessages(delta);
@@ -207,7 +219,17 @@ void PaddleTankAIControlledEntityState::AimAtPlayer(PaddleTankGameEntity *entity
 	entity->SetTurretAngle(angleRads);
 }
 
-void PaddleTankAIControlledEntityState::Attack(PaddleTankGameEntity *entity, float delta) {
+void PaddleTankAIControlledEntityState::AutoAttack(PaddleTankGameEntity *entity, float delta) {
+	if (M_CurrentShotTime <= M_AttackCycle) {
+		M_CurrentShotTime += delta;
+	}
+	else {
+		entity->Shoot();
+		M_CurrentShotTime = 0.0f;
+	}
+}
+
+void PaddleTankAIControlledEntityState::BurstAttack(PaddleTankGameEntity *entity, float delta) {
 	if (M_CurrentShotTime <= M_AttackCycle) {
 		M_CurrentShotTime += delta;
 	}
