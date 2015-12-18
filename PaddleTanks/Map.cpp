@@ -325,7 +325,7 @@ void Map::Update(float delta) {
 	//Step the simulation
 	m_world->Step(delta, 6, 2);
 	//Update the tanks.
-	for (std::size_t i = 0; i < m_tanks.size(); i++) {
+	/*for (std::size_t i = 0; i < m_tanks.size(); i++) {
 		if (m_tanks[i]->IsTagged())
 		{
 			delete m_tanks[i];
@@ -333,6 +333,22 @@ void Map::Update(float delta) {
 		}
 		else
 			m_tanks[i]->Update(delta);
+	}*/
+	for each (PaddleTankGameEntity* tank in m_tanks)
+	{
+		if (tank->IsTagged())
+		{
+			if (std::find(m_tanks.begin(), m_tanks.end(), tank) != m_tanks.end())
+			{
+				delete tank;
+				m_tanks.erase(std::find(m_tanks.begin(), m_tanks.end(), tank));
+				break;
+			}
+		}
+		else
+		{
+			tank->Update(delta);
+		}
 	}
 	//Update the bullets unless they have been tagged, in which case
 	// they get destroyed.
