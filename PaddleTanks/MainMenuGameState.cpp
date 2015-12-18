@@ -55,7 +55,14 @@ void MainMenuGameState::Init(int width, int height) {
 	G_InputManager.RegisterKey(sf::Keyboard::Down);
 }
 
-
+//void MainMenuGameState::Resume(){
+//	TogglePause();
+//	G_InputManager.RegisterKey(sf::Keyboard::Escape);
+//	G_InputManager.RegisterKey(sf::Keyboard::Return);
+//	G_InputManager.RegisterKey(sf::Keyboard::Space);
+//	G_InputManager.RegisterKey(sf::Keyboard::Up);
+//	G_InputManager.RegisterKey(sf::Keyboard::Down);
+//}
 
 void MainMenuGameState::Cleanup() {
 	//Clean up objects.
@@ -73,8 +80,8 @@ void MainMenuGameState::Cleanup() {
 	//reset the select and scroll values.
 	m_selectedItem = 0;
 	m_selectedItemClicked = false;
-
 	//Deregister keys used by this state.
+	G_InputManager.UpdateKeys();
 	G_InputManager.DeregisterKey(sf::Keyboard::Escape);
 	G_InputManager.DeregisterKey(sf::Keyboard::Return);
 	G_InputManager.DeregisterKey(sf::Keyboard::Space);

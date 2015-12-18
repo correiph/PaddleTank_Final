@@ -61,7 +61,7 @@ private:
 public:
 	virtual void Init(int width, int height);
 	virtual void Cleanup();
-
+	virtual void Resume();
 	virtual void Update(float delta, GameManager *game);
 
 protected:

@@ -44,7 +44,7 @@ void PaddleTankHumanControlledEntityState::Execute(PaddleTankGameEntity *entity,
 	entity->SetTurretAngle(angleRads);
 	//Fires the gun if a shot is ready.
 	if (G_InputManager.isKeyDown(sf::Keyboard::Space) || G_InputManager.isMouseButtonDown(sf::Mouse::Left)) {
-		if (entity->IsShotReady() && entity->BulletsInMagazine()) {
+		if (entity->IsShotReady() && entity->BulletsInMagazine() && (entity->getStats()->getPower() > 0.0f)) {
 			entity->Shoot();
 		}
 		m_notIdle = true;
@@ -111,17 +111,18 @@ void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity, f
 	entity->SetTurretAngle(angleRads);
 	//Fires the gun if a shot is ready.
 	if (G_InputManager.isKeyDown(sf::Keyboard::Space) || G_InputManager.isMouseButtonDown(sf::Mouse::Left)) {
-		if (entity->IsShotReady() && entity->BulletsInMagazine() && entity->getStats()->getPower() > 0.0f) {
+		if (entity->IsShotReady() && entity->BulletsInMagazine() && (entity->getStats()->getPower() > 0.0f)) {
 			entity->Shoot();
 		}
 		//Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);
 		m_notIdle = true;
 	}
+
 	if (m_notIdle)
 	{
 		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);
 	}
-	else
+	else if (m_notIdle == false && (entity->getShotCoolDown() <= 0.0f))
 	{
 		entity->getStats()->RegenerateHealth(HEALTH_REGEN_RATE);
 		entity->getStats()->RegeneratePower(POWER_REGEN_RATE);
@@ -224,10 +225,25 @@ void PaddleTankAIControlledEntityState::AutoAttack(PaddleTankGameEntity *entity,
 		M_CurrentShotTime += delta;
 	}
 	else {
-		entity->Shoot();
-		M_CurrentShotTime = 0.0f;
+		if (entity->IsShotReady() && entity->BulletsInMagazine() && (entity->getStats()->getPower() > 0.0f)) {
+			entity->Shoot();
+			M_CurrentShotTime = 0.0f;
+		}
 	}
 }
+
+void PaddleTankAIControlledEntityState::BurstAttack(PaddleTankGameEntity *entity, float delta) {
+	if (M_CurrentShotTime <= M_AttackCycle) {
+		M_CurrentShotTime += delta;
+	}
+	else {
+		if (entity->IsShotReady() && entity->BulletsInMagazine() && (entity->getStats()->getPower() > 0.0f)) {
+			entity->Shoot();
+			M_CurrentShotTime = 0.0f;
+		}
+	}
+}
+
 
 #pragma endregion
 

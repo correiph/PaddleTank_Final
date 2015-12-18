@@ -56,6 +56,8 @@ PaddleTankGameEntity::~PaddleTankGameEntity()
 void PaddleTankGameEntity::Update(float delta) {
 	//First update the base class, which among other things will set the
 	// tank body sprites position based on the box2d bodies position. 
+	if (shotCoolDown > 0.0f)
+		shotCoolDown -= delta;
 	Box2DGameEntity::Update(delta);
 	//Set the barrel to the correct position.
 	m_barrelSprite->setPosition(m_sprite->getPosition());
@@ -80,6 +82,7 @@ bool PaddleTankGameEntity::HandleMessage(const Telegram& msg) {
 		return true;
 	case message_type::HIT:
 		m_stats->LoseHealth(HEALTH_DAMAGE_HIT);
+		shotCoolDown = 1.0f;
 		return true;
 	default:
 		//You remember how the short circuiting works on the logical or right?
