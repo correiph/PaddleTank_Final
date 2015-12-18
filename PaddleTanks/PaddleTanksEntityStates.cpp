@@ -145,23 +145,8 @@ void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
 	
-	M_RANDOMFORCEDURATION = LOW_VALUE + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HIGH_VALUE - LOW_VALUE)));
-	
-
-	if (M_CURRENTTIME <= M_STRAFETIME) {
-		M_CURRENTTIME += delta;
-	}
-	else {
-		if (M_CURRENTFORCETIME < M_APPLYFORCEDURATION) {
-			entity->ApplyLinearImpulse(b2Vec2(0.0f, M_STRAFEDIRECTION * -PADDLE_TANK_IMPULSE_POWER));
-			M_CURRENTFORCETIME += delta;
-		} else {
-			M_STRAFEDIRECTION *= -1;
-			M_CURRENTTIME = 0.0f;
-			M_CURRENTFORCETIME = 0.0f - M_RANDOMFORCEDURATION;
-			std::cout << M_RANDOMFORCEDURATION << std::endl;
-		}
-	}
+	StrafeUpAndDown(entity, delta);
+	AimAtPlayer(entity);
 
 	// Dispatcher->DispatchDelayedMessages(delta);
 
@@ -177,4 +162,37 @@ void PaddleTankAIControlledEntityState::Exit(PaddleTankGameEntity *entity) {
 bool PaddleTankAIControlledEntityState::OnMessage(PaddleTankGameEntity *entity, const Telegram& msg) {
 	return false;
 }
+
+void PaddleTankAIControlledEntityState::StrafeUpAndDown(PaddleTankGameEntity *entity, float delta) {
+	M_RANDOMFORCEDURATION = LOW_VALUE + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HIGH_VALUE - LOW_VALUE)));
+
+
+	if (M_CURRENTTIME <= M_STRAFETIME) {
+		M_CURRENTTIME += delta;
+	}
+	else {
+		if (M_CURRENTFORCETIME < M_APPLYFORCEDURATION) {
+			entity->ApplyLinearImpulse(b2Vec2(0.0f, M_STRAFEDIRECTION * -PADDLE_TANK_IMPULSE_POWER));
+			M_CURRENTFORCETIME += delta;
+		}
+		else {
+			M_STRAFEDIRECTION *= -1;
+			M_CURRENTTIME = 0.0f;
+			M_CURRENTFORCETIME = 0.0f - M_RANDOMFORCEDURATION;
+		}
+	}
+}
+
+void PaddleTankAIControlledEntityState::AimAtPlayer(PaddleTankGameEntity *entity) {
+	sf::Vector2f mousePos = vec2utils::ConvertVectorType<sf::Vector2i, sf::Vector2f>(G_InputManager.mousePosition());
+	sf::Vector2f tankPos = entity->GetPosition();
+	sf::Vector2f bdir = mousePos - tankPos;
+	sf::Vector2f normBdir = vec2utils::NormalOf<sf::Vector2f, sf::Vector2f>(bdir);
+	float angleRads = std::atan2(normBdir.y, normBdir.x);
+	entity->SetTurretAngle(angleRads);
+}
+
+
+
 #pragma endregion
+

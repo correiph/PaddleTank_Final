@@ -308,6 +308,22 @@ bool Map::loadFromFile(std::string const &filename) {
 			//tankBodTwo->SetUserData(tankOne);
 		}
 	}
+
+	{
+
+		sf::Vector2f powerUpPos;
+		powerUpPos.x = 400;
+		sf::Time time;
+		srand(time.asMilliseconds());
+		powerUpPos.y = 200 * (rand() % 2 + 1);
+		b2BodyDef powerUpBdDef;
+		powerUpBdDef.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * powerUpPos);
+		powerUpBdDef.type = b2_dynamicBody;
+
+		b2Body *powerUpBd = m_world->CreateBody(&powerUpBdDef);
+		PowerUpEntity *powerup = new PowerUpEntity(*powerUpBd, *m_ta, "barrelGreen_up.png");
+		m_powerups.push_back(powerup);
+	}
 	return true;
 }
 
@@ -337,6 +353,18 @@ void Map::Update(float delta) {
 		}
 		
 	}
+
+	for (auto it = m_powerups.begin(); it != m_powerups.end();) {
+		if ((*it)->IsTagged()) {
+			delete *it;
+			it = m_powerups.erase(it);
+		}
+		else {
+			(*it)->Update(delta);
+			it++;
+		}
+
+	}
 }
 
 bool Map::HandleMessage(const Telegram& msg) {
@@ -353,7 +381,7 @@ bool Map::HandleMessage(const Telegram& msg) {
 		
 		b2Body *bullBod = m_world->CreateBody(&bulldef);
 		Box2DGameEntity *bullet = new Box2DGameEntity(*bullBod, *m_ta, "bulletSilverSilver_outline.png", Box2DGameEntity::CIRCLE, 1.0f, 1.0f, true);
-		
+
 		m_bullets.push_back(bullet);
 		//Now that the telegram has been delivered, make sure you delete the extra info.
 		delete (SpawnBulletData *)msg.ExtraInfo;
@@ -389,6 +417,11 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		target.draw(**it, states);
 	}
 	//Draw smoke clouds
+
+	//Draw Power-ups
+	for (std::size_t i = 0; i < m_powerups.size(); i++) {
+		target.draw(*(m_powerups[i]), states);
+	}
 }
 
 class Contacts {
@@ -403,6 +436,8 @@ public:
 		TANK_B = SCORING_WALL_A << 5,
 		BULLET_A = SCORING_WALL_A << 6,
 		BULLET_B = SCORING_WALL_A << 7,
+		POWERUP_A = SCORING_WALL_A << 8,
+		POWERUP_B = SCORING_WALL_A << 9,
 	};
 	static int GetContacts(b2Fixture *fixtureA, b2Fixture *fixtureB) {
 		int c = NONE;
@@ -421,6 +456,9 @@ public:
 			Box2DGameEntity *ge = (Box2DGameEntity *)fixtureA->GetBody()->GetUserData();
 			if (ge->EntityType() == BaseGameEntity::PADDLE_TANK_ENTITY) {
 				c |= TANK_A;
+			}
+			else if (ge->EntityType() == BaseGameEntity::POWERUP_ENTITY){
+				c |= POWERUP_A;
 			}
 			else {
 				c |= BULLET_A;
@@ -441,6 +479,9 @@ public:
 			Box2DGameEntity *ge = (Box2DGameEntity *)fixtureB->GetBody()->GetUserData();;
 			if (ge->EntityType() == BaseGameEntity::PADDLE_TANK_ENTITY) {
 				c |= TANK_B;
+			}
+			else if (ge->EntityType() == BaseGameEntity::POWERUP_ENTITY){
+				c |= POWERUP_B;
 			}
 			else {
 				c |= BULLET_B;
@@ -483,6 +524,35 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		statToChange->LoseHealth();
 		std::cout << statToChange->getHealth() << std::endl;*/
 		// send message to points for appropriate team.
+		// tag bullet for destruction.
+		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
+		break;
+	case (Contacts::TANK_B | Contacts::POWERUP_A) :
+		//swap fixtures
+		temp = fix1;
+		fix1 = fix2;
+		fix2 = temp;
+	case (Contacts::TANK_A | Contacts::POWERUP_B) :
+		// send message to points for appropriate team.
+		// tag bullet for destruction.
+		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
+		break;
+	case (Contacts::POWERUP_B | Contacts::BULLET_A) :
+		temp = fix1;
+		fix1 = fix2;
+		fix2 = temp;
+	case (Contacts::POWERUP_A | Contacts::BULLET_B) :
+
+		// tag bullet for destruction.ApplyLinearImpulse
+		((PowerUpEntity *)fix1->GetBody()->GetUserData())->ApplyLinearImpulse(fix2->GetBody()->GetLinearVelocity());
+		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
+		break;
+	case (Contacts::SCORING_WALL_B | Contacts::POWERUP_A) :
+		temp = fix1;
+		fix1 = fix2;
+		fix2 = temp;
+	case (Contacts::SCORING_WALL_A | Contacts::POWERUP_B) :
+
 		// tag bullet for destruction.
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
 		break;
