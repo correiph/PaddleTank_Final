@@ -17,9 +17,3 @@ float const PADDLE_TANK_IMPULSE_POWER = 1000000.0f;
 float const MIN_TIME_BETWEEN_SHOTS = 0.07f;
 float const MAGAZINE_RELOAD_TIME = 1.0f;
 float const BOUNDARY_WALLS_HEIGHT = 2.0f; //in meters
-
-float const HEALTH_REGEN_RATE = 10.0f / 60.0f; // 10 hp per 60 frames (1 second), 100 hp in 10 seconds
-float const POWER_REGEN_RATE = 20.0f / 60.0f; // 20 power per 60 frames (1 second), 100 power in 5 seconds
-
-float const HEALTH_DAMAGE_HIT = 10.0f; // 10 health is subtracted per hit received
-float const POWER_DRAIN_SHOT = 1.0f; // 1 power is subtracted per shot fired
