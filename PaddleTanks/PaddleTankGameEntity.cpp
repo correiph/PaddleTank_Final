@@ -97,7 +97,6 @@ void PaddleTankGameEntity::Shoot() {
 	// collides with the spawning tank.
 	spawnData->Position = normBdir * ((float)m_barrelSprite->getTextureRect().width+18) + m_barrelSprite->getPosition();
 	spawnData->Direction = normBdir;
-	
 	//Fire the shot
 	Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, this->ID(), m_mapEntID, message_type::SPAWN_BULLET, spawnData);
 	//Reload!
@@ -108,4 +107,10 @@ void PaddleTankGameEntity::Shoot() {
 		Dispatcher->DispatchMsg(MAGAZINE_RELOAD_TIME, this->ID(), this->ID(), message_type::RELOAD, nullptr);
 	}
 	m_magazine--;
+
 }
+//void PaddleTankGameEntity::HealthStat(int health) {
+//	if (health >= 0) {
+//		~PADDLE_TANK_ENTITY;
+//	}
+//}

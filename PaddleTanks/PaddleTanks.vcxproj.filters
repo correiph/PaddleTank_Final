@@ -117,6 +117,9 @@
     <ClInclude Include="PowerUpEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="TankStatsGameEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\Entities\BaseGameEntity.cpp">
@@ -174,6 +177,9 @@
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="PowerUpEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="TankStatsGameEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
   </ItemGroup>

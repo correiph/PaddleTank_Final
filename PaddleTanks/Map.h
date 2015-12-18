@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
-
+#include "TankStatsGameEntity.h"
 #include <vector>
 #include <list>
 
@@ -94,6 +94,7 @@ private:
 	std::vector<Box2DGameEntity *> m_tanks;
 	std::list<Box2DGameEntity *> m_bullets;
 	std::vector<Box2DGameEntity *> m_powerups;
+	std::vector<BaseGameEntity *> m_stats;
 
 	TiledBackground *m_background;
 	TextureAtlas *m_ta;

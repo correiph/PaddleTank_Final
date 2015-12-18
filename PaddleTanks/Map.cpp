@@ -128,7 +128,35 @@ bool Map::loadFromFile(std::string const &filename) {
 		rbod->SetUserData(lge);
 		m_boundaries.push_back(rbod);
 	}
+	//create stats display on bottom
+	{
+		b2BodyDef sdef;
+		sdef.position.Set(0.5f, 0.5f);
+		sdef.type = b2_staticBody;
+		b2Body *sbod = m_world->CreateBody(&sdef);
+		b2PolygonShape sshp;
+		sshp.SetAsBox(1.0f, 1.0f);
+		b2FixtureDef sfdef;
+		sfdef.shape = &sshp;
+		sfdef.isSensor = true;
+		sbod->CreateFixture(&sfdef);
 
+		//The right scoring entity gets associated with the left scoring wall.
+		TankStatsGameEntity *rtsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f + 220, 600 * 0.87), sf::Color::Blue);
+		sbod->SetUserData(rtsge);
+		rtsge->CurrentHealthPower();
+		m_stats.push_back(rtsge);
+
+		sdef.position.x = 1.0f;
+		b2Body *s2bod = m_world->CreateBody(&sdef);
+		s2bod->CreateFixture(&sfdef);
+
+		//The left scoring entity gets associated with the right scoring wall.
+		TankStatsGameEntity *ltsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f - 380, mapHeightPx * 0.87), sf::Color::Red);
+		s2bod->SetUserData(ltsge);
+		ltsge->CurrentHealthPower();
+		m_stats.push_back(ltsge);
+	}
 	//Create the boundary walls.
 	{
 		b2BodyDef tdef;
@@ -251,11 +279,17 @@ bool Map::loadFromFile(std::string const &filename) {
 
 		if (estateOne == PaddleTankHumanControlledEntityState::Instance())
 		{
-			tankBodOne->SetUserData(tankTwo);
+			std::vector<void *> *userdata = &std::vector<void *>();
+			userdata->push_back(tankTwo);
+			tankBodOne->SetUserData(userdata);
+			tankBodTwo->SetUserData(new std::vector<void *>);
 		}
 		else
 		{
-			tankBodTwo->SetUserData(tankOne);
+			std::vector<void *> *userdata = &std::vector<void *>();
+			userdata->push_back(tankTwo);
+			tankBodTwo->SetUserData(userdata);
+			tankBodOne->SetUserData(new std::vector<void *>);
 		}
 	}
 	return true;
@@ -267,7 +301,13 @@ void Map::Update(float delta) {
 	m_world->Step(delta, 6, 2);
 	//Update the tanks.
 	for (std::size_t i = 0; i < m_tanks.size(); i++) {
-		m_tanks[i]->Update(delta);
+		/*if (m_tanks[i]->IsTagged())
+		{
+			delete m_tanks[i];
+			m_tanks.erase(std::remove(m_tanks.begin(), m_tanks.end(), m_tanks[i]), m_tanks.end());
+		}
+		else*/
+			m_tanks[i]->Update(delta);
 	}
 	//Update the bullets unless they have been tagged, in which case
 	// they get destroyed.
@@ -312,10 +352,12 @@ bool Map::HandleMessage(const Telegram& msg) {
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//Draw background tiles
 	target.draw(*m_background, states);
-
 	//Draw the scores.
 	for (std::size_t i = 0; i < 2; i++) {
 		target.draw(*(ScoreGameEntity *)m_boundaries[i]->GetUserData(), states);
+	}
+	for (std::size_t i = 0; i < m_stats.size(); i++) {
+		target.draw(*(TankStatsGameEntity *)m_stats[i], states);
 	}
 
 	//Draw static obstacles
@@ -405,7 +447,7 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		fix2 = temp;
 	case (Contacts::SCORING_WALL_A | Contacts::BULLET_B) :
 		//Score a point.
-		((ScoreGameEntity *)fix1->GetBody()->GetUserData())->IncrementScore();
+		//((ScoreGameEntity *)fix1->GetBody()->GetUserData())->IncrementScore();
 		// send message to points for appropriate team.
 		// tag bullet for destruction.
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
@@ -416,6 +458,7 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		fix1 = fix2;
 		fix2 = temp;
 	case (Contacts::TANK_A | Contacts::BULLET_B) :
+		((TankStatsGameEntity *)fix1->GetBody()->GetUserData())->LoseHealth();
 		// send message to points for appropriate team.
 		// tag bullet for destruction.
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
