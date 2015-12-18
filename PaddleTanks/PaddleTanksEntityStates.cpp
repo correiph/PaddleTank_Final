@@ -144,10 +144,12 @@ void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 }
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
+	
+	M_RANDOMFORCEDURATION = LOW_VALUE + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HIGH_VALUE - LOW_VALUE)));
+	
 
 	if (M_CURRENTTIME <= M_STRAFETIME) {
 		M_CURRENTTIME += delta;
-		std::cout << M_CURRENTTIME << std::endl;
 	}
 	else {
 		if (M_CURRENTFORCETIME < M_APPLYFORCEDURATION) {
@@ -156,7 +158,8 @@ void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, fl
 		} else {
 			M_STRAFEDIRECTION *= -1;
 			M_CURRENTTIME = 0.0f;
-			M_CURRENTFORCETIME = 0.0f - M_APPLYFORCEDURATION;
+			M_CURRENTFORCETIME = 0.0f - M_RANDOMFORCEDURATION;
+			std::cout << M_RANDOMFORCEDURATION << std::endl;
 		}
 	}
 

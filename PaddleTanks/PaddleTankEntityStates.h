@@ -105,6 +105,9 @@ private:
 	float M_CURRENTTIME = 0.0f;
 	float M_CURRENTFORCETIME = 0.0f;
 	float M_APPLYFORCEDURATION = 1.0f;
+	float M_RANDOMFORCEDURATION;
+	float LOW_VALUE = 0.0f;
+	float HIGH_VALUE = 1.0f;
 
 public:
 	static PaddleTankAIControlledEntityState *Instance() {
