@@ -303,9 +303,9 @@ bool Map::loadFromFile(std::string const &filename) {
 		b2BodyDef powerUpBdDef;
 		powerUpBdDef.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * powerUpPos);
 		powerUpBdDef.type = b2_dynamicBody;
+
 		b2Body *powerUpBd = m_world->CreateBody(&powerUpBdDef);
 		PowerUpEntity *powerup = new PowerUpEntity(*powerUpBd, *m_ta, "barrelGreen_up.png");
-
 		m_powerups.push_back(powerup);
 	}
 	return true;
@@ -365,7 +365,7 @@ bool Map::HandleMessage(const Telegram& msg) {
 		
 		b2Body *bullBod = m_world->CreateBody(&bulldef);
 		Box2DGameEntity *bullet = new Box2DGameEntity(*bullBod, *m_ta, "bulletSilverSilver_outline.png", Box2DGameEntity::CIRCLE, 1.0f, 1.0f, true);
-		
+
 		m_bullets.push_back(bullet);
 		//Now that the telegram has been delivered, make sure you delete the extra info.
 		delete (SpawnBulletData *)msg.ExtraInfo;
@@ -520,7 +520,8 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		fix2 = temp;
 	case (Contacts::POWERUP_A | Contacts::BULLET_B) :
 
-		// tag bullet for destruction.
+		// tag bullet for destruction.ApplyLinearImpulse
+		((PowerUpEntity *)fix1->GetBody()->GetUserData())->ApplyLinearImpulse(fix2->GetBody()->GetLinearVelocity());
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
 		break;
 	case (Contacts::SCORING_WALL_B | Contacts::POWERUP_A) :
