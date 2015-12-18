@@ -447,7 +447,7 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		fix2 = temp;
 	case (Contacts::SCORING_WALL_A | Contacts::BULLET_B) :
 		//Score a point.
-		//((ScoreGameEntity *)fix1->GetBody()->GetUserData())->IncrementScore();
+		((ScoreGameEntity *)fix1->GetBody()->GetUserData())->IncrementScore();
 		// send message to points for appropriate team.
 		// tag bullet for destruction.
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
@@ -458,7 +458,7 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		fix1 = fix2;
 		fix2 = temp;
 	case (Contacts::TANK_A | Contacts::BULLET_B) :
-		((TankStatsGameEntity *)fix1->GetBody()->GetUserData())->LoseHealth();
+		//((TankStatsGameEntity *)fix1->GetBody()->GetUserData())->LoseHealth();
 		// send message to points for appropriate team.
 		// tag bullet for destruction.
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
