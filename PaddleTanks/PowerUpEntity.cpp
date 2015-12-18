@@ -20,6 +20,11 @@ PowerUpEntity::~PowerUpEntity()
 {
 
 }
+void PowerUpEntity::Update(float delta) {
+	//First update the base class, which among other things will set the
+	// tank body sprites position based on the box2d bodies position. 
+	Box2DGameEntity::Update(delta);
+}
 
 void PowerUpEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	Box2DGameEntity::draw(target, states);
