@@ -224,8 +224,10 @@ void PaddleTankAIControlledEntityState::AutoAttack(PaddleTankGameEntity *entity,
 		M_CurrentShotTime += delta;
 	}
 	else {
-		entity->Shoot();
-		M_CurrentShotTime = 0.0f;
+		if (entity->IsShotReady() && entity->BulletsInMagazine() && (entity->getStats()->getPower() > 0.0f)) {
+			entity->Shoot();
+			M_CurrentShotTime = 0.0f;
+		}
 	}
 }
 
@@ -234,8 +236,10 @@ void PaddleTankAIControlledEntityState::BurstAttack(PaddleTankGameEntity *entity
 		M_CurrentShotTime += delta;
 	}
 	else {
-		entity->Shoot();
-		M_CurrentShotTime = 0.0f;
+		if (entity->IsShotReady() && entity->BulletsInMagazine() && (entity->getStats()->getPower() > 0.0f)) {
+			entity->Shoot();
+			M_CurrentShotTime = 0.0f;
+		}
 	}
 }
 
