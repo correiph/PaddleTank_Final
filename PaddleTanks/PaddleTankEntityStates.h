@@ -110,12 +110,14 @@ private:
 	float	M_AttackCycle = 0.4f;
 	float	LOW_VALUE = 0.0f;
 	float	HIGH_VALUE = 1.0f;
+	float	YOLO_360_BLAZE_IT = 0.0f;
 
 	enum AI_DIFFICULTY { EASY, NORMAL, HARD };
 
 	void StrafeUpAndDown(PaddleTankGameEntity *entity, float delta);
 	void AimAtPlayer(PaddleTankGameEntity *entity);
 	void AutoAttack(PaddleTankGameEntity *entity, float delta);
+	void SpinTurret(PaddleTankGameEntity *entity, float delta);
 
 public:
 	static PaddleTankAIControlledEntityState *Instance() {
