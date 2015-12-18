@@ -15,6 +15,7 @@
 #include "PowerUpEntity.h"
 #include "ScoreGameEntity.h"
 #include "tinyxml/tinyxml2.h"
+#include "Messaging\MessageDispatcher.h"
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
@@ -142,7 +143,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		sbod->CreateFixture(&sfdef);
 
 		//The right scoring entity gets associated with the left scoring wall.
-		TankStatsGameEntity *rtsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f + 220, 600 * 0.87), sf::Color::Blue);
+		rtsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f + 220, 600 * 0.87), sf::Color::Blue);
 		sbod->SetUserData(rtsge);
 		rtsge->CurrentHealthPower();
 		m_stats.push_back(rtsge);
@@ -152,7 +153,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		s2bod->CreateFixture(&sfdef);
 
 		//The left scoring entity gets associated with the right scoring wall.
-		TankStatsGameEntity *ltsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f - 380, mapHeightPx * 0.87), sf::Color::Red);
+		ltsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f - 380, mapHeightPx * 0.87), sf::Color::Red);
 		s2bod->SetUserData(ltsge);
 		ltsge->CurrentHealthPower();
 		m_stats.push_back(ltsge);
@@ -231,6 +232,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		tankBd.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * spawnPos);
 		tankBd.type = b2_dynamicBody;
 		b2Body *tankBodOne = m_world->CreateBody(&tankBd);
+		//tankBodOne->GetFixtureList()->GetFilterData().categoryBits = PADDLE_TANK_ENTITY;
 		//Check what kind of type of tank it is suppose to be, such as an AI controlled one or a user controlled one.
 		std::string type(spawnEl->Attribute("type"));
 		EntityState<PaddleTankGameEntity> *estateOne = nullptr;
@@ -279,17 +281,31 @@ bool Map::loadFromFile(std::string const &filename) {
 
 		if (estateOne == PaddleTankHumanControlledEntityState::Instance())
 		{
-			std::vector<void *> *userdata = &std::vector<void *>();
-			userdata->push_back(tankTwo);
-			tankBodOne->SetUserData(userdata);
-			tankBodTwo->SetUserData(new std::vector<void *>);
+			tankOne->m_stats = ltsge;
+			tankTwo->m_stats = rtsge;
+			/*std::vector<void *> *userdataright = &std::vector<void *>();
+			userdataright->push_back(tankBodTwo->GetUserData());
+			userdataright->push_back(rtsge);
+			userdataright->push_back(tankOne);*/
+			//tankBodTwo->SetUserData(tankOne);
+
+			/*std::vector<void *> *userdataleft = &std::vector<void *>();
+			userdataleft->push_back(tankBodOne->GetUserData());
+			userdataleft->push_back(ltsge);*/
+			//tankBodOne->SetUserData(tankTwo);
 		}
 		else
 		{
-			std::vector<void *> *userdata = &std::vector<void *>();
-			userdata->push_back(tankTwo);
-			tankBodTwo->SetUserData(userdata);
-			tankBodOne->SetUserData(new std::vector<void *>);
+			tankOne->m_stats = rtsge;
+			tankTwo->m_stats = ltsge;
+			/*std::vector<void *> *userdataright = &std::vector<void *>();
+			std::vector<void *> *userdataleft = &std::vector<void *>();
+			userdataright->push_back(tankBodTwo->GetUserData());
+			userdataright->push_back(rtsge);
+			userdataright->push_back(tankTwo);*/
+			//tankBodOne->SetUserData(tankTwo);
+			/*userdataleft->push_back(ltsge);*/
+			//tankBodTwo->SetUserData(tankOne);
 		}
 	}
 	return true;
@@ -422,7 +438,7 @@ public:
 		}
 		else if (fixtureB->GetBody()->GetType() == b2_dynamicBody) {
 			//Either a tank or a bullet.
-			Box2DGameEntity *ge = (Box2DGameEntity *)fixtureB->GetBody()->GetUserData();
+			Box2DGameEntity *ge = (Box2DGameEntity *)fixtureB->GetBody()->GetUserData();;
 			if (ge->EntityType() == BaseGameEntity::PADDLE_TANK_ENTITY) {
 				c |= TANK_B;
 			}
@@ -439,6 +455,8 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 	b2Fixture *fix2 = contact->GetFixtureB();
 	int c = Contacts::GetContacts(fix1, fix2);
 	b2Fixture *temp;
+	std::vector<void *> *udata;
+	TankStatsGameEntity *statToChange;
 	switch (c) {
 	case (Contacts::SCORING_WALL_B | Contacts::BULLET_A) :
 		//Swap fixtures
@@ -458,7 +476,12 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		fix1 = fix2;
 		fix2 = temp;
 	case (Contacts::TANK_A | Contacts::BULLET_B) :
+		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, ((BaseGameEntity *)fix1->GetBody()->GetUserData())->ID(),message_type::HIT, nullptr);
 		//((TankStatsGameEntity *)fix1->GetBody()->GetUserData())->LoseHealth();
+		/*udata = (std::vector<void *>*)fix1->GetBody()->GetUserData();
+		statToChange = (TankStatsGameEntity *)&udata[1];
+		statToChange->LoseHealth();
+		std::cout << statToChange->getHealth() << std::endl;*/
 		// send message to points for appropriate team.
 		// tag bullet for destruction.
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();

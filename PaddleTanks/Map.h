@@ -96,6 +96,9 @@ private:
 	std::vector<Box2DGameEntity *> m_powerups;
 	std::vector<BaseGameEntity *> m_stats;
 
+	TankStatsGameEntity *rtsge;
+	TankStatsGameEntity *ltsge;
+
 	TiledBackground *m_background;
 	TextureAtlas *m_ta;
 	//The contact listener for the map.
