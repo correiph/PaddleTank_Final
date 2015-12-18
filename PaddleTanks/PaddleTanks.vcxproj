@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\Orbitron_Font_Open Font License.markdown" />
+    <None Include="ClassDiagram.cd" />
     <None Include="Common\tinyxml-readme.md" />
   </ItemGroup>
   <ItemGroup>

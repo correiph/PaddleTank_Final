@@ -1,5 +1,5 @@
-#include "Globals.h"
 
+#include "Globals.h"
 #include "Map.h"
 
 #include "message_types.h"
@@ -147,7 +147,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		//The right scoring entity gets associated with the left scoring wall.
 		rtsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f + 220, 600 * 0.87), sf::Color::Blue);
 		sbod->SetUserData(rtsge);
-		rtsge->CurrentHealthPower();
+		//rtsge->CurrentHealthPower();
 		m_stats.push_back(rtsge);
 
 		sdef.position.x = 1.0f;
@@ -157,7 +157,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		//The left scoring entity gets associated with the right scoring wall.
 		ltsge = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f - 380, mapHeightPx * 0.87), sf::Color::Red);
 		s2bod->SetUserData(ltsge);
-		ltsge->CurrentHealthPower();
+		//ltsge->CurrentHealthPower();
 		m_stats.push_back(ltsge);
 	}
 	//Create the boundary walls.
@@ -283,8 +283,8 @@ bool Map::loadFromFile(std::string const &filename) {
 
 		if (estateOne == PaddleTankHumanControlledEntityState::Instance())
 		{
-			tankOne->m_stats = ltsge;
-			tankTwo->m_stats = rtsge;
+			/*tankOne->setStats() = ltsge;
+			tankTwo->setStats() = rtsge;*/
 			/*std::vector<void *> *userdataright = &std::vector<void *>();
 			userdataright->push_back(tankBodTwo->GetUserData());
 			userdataright->push_back(rtsge);
@@ -298,8 +298,8 @@ bool Map::loadFromFile(std::string const &filename) {
 		}
 		else
 		{
-			tankOne->m_stats = rtsge;
-			tankTwo->m_stats = ltsge;
+			/*tankOne->m_stats = rtsge;
+			tankTwo->m_stats = ltsge;*/
 			/*std::vector<void *> *userdataright = &std::vector<void *>();
 			std::vector<void *> *userdataleft = &std::vector<void *>();
 			userdataright->push_back(tankBodTwo->GetUserData());
@@ -503,8 +503,8 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 	b2Fixture *fix2 = contact->GetFixtureB();
 	int c = Contacts::GetContacts(fix1, fix2);
 	b2Fixture *temp;
-	std::vector<void *> *udata;
-	TankStatsGameEntity *statToChange;
+	/*std::vector<void *> *udata;
+	TankStatsGameEntity *statToChange;*/
 	switch (c) {
 	case (Contacts::SCORING_WALL_B | Contacts::BULLET_A) :
 		//Swap fixtures

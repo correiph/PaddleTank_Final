@@ -45,7 +45,7 @@ public:
 		m_mapEntID = eid;
 	}
 
-	TankStatsGameEntity *m_stats;
+	
 
 	//Get the state machine - used for changing states.
 	StateMachine<PaddleTankGameEntity>* GetFSM() const { 
@@ -57,7 +57,9 @@ public:
 
 	//Set the turret to point in this direction.
 	void SetTurretAngle(float angleRads);
-	
+	TankStatsGameEntity* getStats(){
+		return m_stats;
+	}
 	//Check if the tank can fire a shot.
 	bool IsShotReady() {
 		return m_shotReady;
@@ -82,7 +84,7 @@ protected:
 	//Render the sprite.
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite *m_barrelSprite;
-	
+	TankStatsGameEntity *m_stats;
 	//Id of the map that contains this entity. When you want to fire a bullet, send
 	/// a message to the map via the dispatcher.
 	int m_mapEntID;

@@ -1,5 +1,6 @@
-#pragma once
 
+#pragma once
+#include "Globals.h"
 #include "Entities/BaseGameEntity.h"
 
 #include <SFML/Graphics/Drawable.hpp>
@@ -43,22 +44,29 @@ public:
 	}
 
 	//power management
+
+	// Increase power as a per-frame value, defined in Globals.h
 	void RegeneratePower() {
-		m_power++;
+		m_power += POWER_REGEN_RATE;
 		regenPower();
 	}
+
+	// Decrease power per-method call, defined in Globals.h
 	void LosePower() {
-		m_power = m_power--;
+		m_power -= POWER_DRAIN_SHOT;
 		regenPower();
 	}
 
 	//health management
+
+	// Decrease health per-method call, defined in Globals.h
 	void LoseHealth() {
-		m_health -= 10;
+		m_health -= HEALTH_DAMAGE_HIT;
 		regenHealth();
 	}
+	// Increase health as a per-frame value, defined in Globals.h
 	void RegenerateHealth() {
-		m_health++;
+		m_health += HEALTH_REGEN_RATE;
 		regenHealth();
 	}
 

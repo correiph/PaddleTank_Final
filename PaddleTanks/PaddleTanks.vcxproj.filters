@@ -201,6 +201,7 @@
     <None Include="assets\Orbitron_Font_Open Font License.markdown">
       <Filter>Resource Files\Assets</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\DroidSansMono.ttf">
