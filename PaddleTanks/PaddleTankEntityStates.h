@@ -111,9 +111,12 @@ private:
 	float	LOW_VALUE = 0.0f;
 	float	HIGH_VALUE = 1.0f;
 
+	enum AI_DIFFICULTY { EASY, NORMAL, HARD };
+
 	void StrafeUpAndDown(PaddleTankGameEntity *entity, float delta);
 	void AimAtPlayer(PaddleTankGameEntity *entity);
-	void Attack(PaddleTankGameEntity *entity, float delta);
+	void AutoAttack(PaddleTankGameEntity *entity, float delta);
+	void BurstAttack(PaddleTankGameEntity *entity, float delta);
 
 public:
 	static PaddleTankAIControlledEntityState *Instance() {
