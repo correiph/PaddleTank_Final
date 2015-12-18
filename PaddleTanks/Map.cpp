@@ -222,6 +222,7 @@ bool Map::loadFromFile(std::string const &filename) {
 	XMLElement *spawnEl = spawnPointsEl->FirstChildElement("Spawn");
 	//while (spawnEl != nullptr)
 	{
+		float dampval = 5.0f;
 		//Spawn the first paddle tank here.
 		sf::Vector2f spawnPos;
 		spawnPos.x = spawnEl->FloatAttribute("x");
@@ -233,6 +234,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		tankBd.angle = angleDeg * RADIANS_PER_DEGREES;
 		tankBd.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * spawnPos);
 		tankBd.type = b2_dynamicBody;
+		tankBd.linearDamping = dampval;
 		b2Body *tankBodOne = m_world->CreateBody(&tankBd);
 		//tankBodOne->GetFixtureList()->GetFilterData().categoryBits = PADDLE_TANK_ENTITY;
 		//Check what kind of type of tank it is suppose to be, such as an AI controlled one or a user controlled one.
@@ -253,7 +255,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		tankOne->getStats()->CurrentHealthPower();
 		//Don't forget to get the next element.
 		spawnEl = spawnEl->NextSiblingElement("Spawn");
-
+		
 		//Spawn the second paddle tank here.
 		//sf::Vector2f spawnPos;
 		spawnPos.x = spawnEl->FloatAttribute("x");
@@ -265,6 +267,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		tankBd.angle = angleDeg * RADIANS_PER_DEGREES;
 		tankBd.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * spawnPos);
 		tankBd.type = b2_dynamicBody;
+		tankBd.linearDamping = dampval;
 		b2Body *tankBodTwo = m_world->CreateBody(&tankBd);
 		//Check what kind of type of tank it is suppose to be, such as an AI controlled one or a user controlled one.
 		type = spawnEl->Attribute("type");

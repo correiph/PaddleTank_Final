@@ -111,7 +111,7 @@ void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity, f
 	entity->SetTurretAngle(angleRads);
 	//Fires the gun if a shot is ready.
 	if (G_InputManager.isKeyDown(sf::Keyboard::Space) || G_InputManager.isMouseButtonDown(sf::Mouse::Left)) {
-		if (entity->IsShotReady() && entity->BulletsInMagazine()) {
+		if (entity->IsShotReady() && entity->BulletsInMagazine() && entity->getStats()->getPower() > 0.0f) {
 			entity->Shoot();
 		}
 		//Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);

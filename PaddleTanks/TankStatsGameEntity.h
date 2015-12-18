@@ -64,13 +64,13 @@ public:
 	}
 
 	//getters and setters
-	int getHealth() {
+	float getHealth() {
 		return m_health;
 	}
 	void setHealth(int health) {
 		m_health = health;
 	}
-	int getPower() {
+	float getPower() {
 		return m_power;
 	}
 	void setPower(int power) {
