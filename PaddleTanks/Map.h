@@ -103,6 +103,8 @@ private:
 	TextureAtlas *m_ta;
 	//The contact listener for the map.
 	MapContactListener *m_contactListener;
+
+	float spwanInterval = 0.0f;
 };
 
 //Handles contacts in the box2d world.
