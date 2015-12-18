@@ -251,7 +251,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		PaddleTankGameEntity *tankOne = new PaddleTankGameEntity(*tankBodOne, *m_ta, tankSprite, barrelSprite, -380, mapWidthPx, mapHeightPx, sf::Color::Blue, b2Vec2(0.5f, 0.5f), PADDLE_TANK_DENSITY, estateOne);
 		tankOne->SetMapEntityID(this->ID());
 		m_tanks.push_back(tankOne);
-		m_stats.push_back(tankOne->getStats());
+		//m_stats.push_back(tankOne->getStats());
 		tankOne->getStats()->CurrentHealthPower();
 		//Don't forget to get the next element.
 		spawnEl = spawnEl->NextSiblingElement("Spawn");
@@ -283,7 +283,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		PaddleTankGameEntity *tankTwo = new PaddleTankGameEntity(*tankBodTwo, *m_ta, tankSprite, barrelSprite, 220, mapWidthPx, mapHeightPx, sf::Color::Red, b2Vec2(1.0f, 0.5f), PADDLE_TANK_DENSITY, estateTwo);
 		tankTwo->SetMapEntityID(this->ID());
 		m_tanks.push_back(tankTwo);
-		m_stats.push_back(tankTwo->getStats());
+		//m_stats.push_back(tankTwo->getStats());
 		tankTwo->getStats()->CurrentHealthPower();
 		//Don't forget to get the next element.
 		spawnEl = spawnEl->NextSiblingElement("Spawn");
@@ -450,9 +450,11 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	for (std::size_t i = 0; i < 2; i++) {
 		target.draw(*(ScoreGameEntity *)m_boundaries[i]->GetUserData(), states);
 	}
+	/*
 	for (std::size_t i = 0; i < m_stats.size(); i++) {
 		target.draw(*(TankStatsGameEntity *)m_stats[i], states);
 	}
+	*/
 }
 
 class Contacts {
@@ -566,6 +568,7 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 	case (Contacts::TANK_A | Contacts::POWERUP_B) :
 		// send message to points for appropriate team.
 		// tag bullet for destruction.
+		//((BaseGameEntity *)fix1->GetBody()->GetUserData())->
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
 		break;
 	case (Contacts::POWERUP_B | Contacts::BULLET_A) :

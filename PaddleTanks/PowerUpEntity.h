@@ -10,6 +10,8 @@ public:
 	
 	virtual ~PowerUpEntity();
 	void PowerUpEntity::ApplyLinearImpulse(b2Vec2 imp);
+	void PowerUpEntity::Action();
+	int PowerUpEntity::GetPowerUpType();
 	void PowerUpEntity::Update(float delta);
 protected:
 	char m_powerUpType;

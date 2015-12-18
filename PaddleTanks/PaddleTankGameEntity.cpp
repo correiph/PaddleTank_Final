@@ -44,7 +44,6 @@ PaddleTankGameEntity::PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, st
 
 	//The right scoring entity gets associated with the left scoring wall.
 	m_stats = new TankStatsGameEntity(sf::Vector2f(mapWidthPx * 0.5f + statsTextOffset, mapHeightPx * 0.87), statsTextColor);
-	sbod->SetUserData(m_stats);
 }
 
 PaddleTankGameEntity::~PaddleTankGameEntity()
@@ -101,6 +100,7 @@ bool PaddleTankGameEntity::HandleMessage(const Telegram& msg) {
 void PaddleTankGameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	Box2DGameEntity::draw(target, states);
 	target.draw(*m_barrelSprite, states);
+	target.draw(*m_stats, states);
 }
 
 void PaddleTankGameEntity::ApplyLinearImpulse(b2Vec2 const &impulse) {
