@@ -158,15 +158,15 @@ void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
 	
-	AI_DIFFICULTY ai_difficulty = AI_DIFFICULTY::HARD;
+	AI_DIFFICULTY ai_difficulty = AI_DIFFICULTY::EASY;
 
 	if (ai_difficulty == AI_DIFFICULTY::EASY) {
 		StrafeUpAndDown(entity, delta);
 		AimAtPlayer(entity);
-		Attack(entity, delta);
+		AutoAttack(entity, delta);
 	}
 	else if (ai_difficulty == AI_DIFFICULTY::NORMAL) {
-		Attack(entity, delta);
+		AutoAttack(entity, delta);
 	}
 	else if (ai_difficulty == AI_DIFFICULTY::HARD) {
 		StrafeUpAndDown(entity, delta);
