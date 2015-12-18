@@ -100,17 +100,20 @@ private:
 	PaddleTankAIControlledEntityState(PaddleTankAIControlledEntityState const &);
 	PaddleTankAIControlledEntityState operator=(PaddleTankAIControlledEntityState const &);
 
-	int M_STRAFEDIRECTION = 1;
-	float M_STRAFETIME = 1.0f;
-	float M_CURRENTTIME = 0.0f;
-	float M_CURRENTFORCETIME = 0.0f;
-	float M_APPLYFORCEDURATION = 1.0f;
-	float M_RANDOMFORCEDURATION;
-	float LOW_VALUE = 0.0f;
-	float HIGH_VALUE = 1.0f;
+	int		M_StrafeDirection = 1;
+	float	M_StrafeTime = 1.0f;
+	float	M_CurrentTime = 0.0f;
+	float	M_CurrentForceTime = 0.0f;
+	float	M_CurrentShotTime = 0.0f;
+	float	M_ApplyForceDuration = 1.0f;
+	float	M_RandomForceDuration;
+	float	M_AttackCycle = 0.4f;
+	float	LOW_VALUE = 0.0f;
+	float	HIGH_VALUE = 1.0f;
 
 	void StrafeUpAndDown(PaddleTankGameEntity *entity, float delta);
 	void AimAtPlayer(PaddleTankGameEntity *entity);
+	void Attack(PaddleTankGameEntity *entity, float delta);
 
 public:
 	static PaddleTankAIControlledEntityState *Instance() {
