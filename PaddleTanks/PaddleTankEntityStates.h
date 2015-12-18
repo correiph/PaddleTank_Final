@@ -116,7 +116,6 @@ private:
 	void StrafeUpAndDown(PaddleTankGameEntity *entity, float delta);
 	void AimAtPlayer(PaddleTankGameEntity *entity);
 	void AutoAttack(PaddleTankGameEntity *entity, float delta);
-	void BurstAttack(PaddleTankGameEntity *entity, float delta);
 
 public:
 	static PaddleTankAIControlledEntityState *Instance() {

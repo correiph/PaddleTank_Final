@@ -229,16 +229,5 @@ void PaddleTankAIControlledEntityState::AutoAttack(PaddleTankGameEntity *entity,
 	}
 }
 
-void PaddleTankAIControlledEntityState::BurstAttack(PaddleTankGameEntity *entity, float delta) {
-	if (M_CurrentShotTime <= M_AttackCycle) {
-		M_CurrentShotTime += delta;
-	}
-	else {
-		entity->Shoot();
-		M_CurrentShotTime = 0.0f;
-	}
-}
-
-
 #pragma endregion
 
