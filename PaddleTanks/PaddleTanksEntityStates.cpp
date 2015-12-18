@@ -156,18 +156,32 @@ bool PaddleTankHumanControlledIdleState::OnMessage(PaddleTankGameEntity *entity,
 //this is the states normal update function
 void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 	srand(time(NULL));
+
+	G_InputManager.RegisterKey(sf::Keyboard::M);
+	ai_difficulty = AI_DIFFICULTY::EASY;
 }
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
 	
-	AI_DIFFICULTY ai_difficulty = AI_DIFFICULTY::EASY;
+	if (G_InputManager.wasKeyPressed(sf::Keyboard::M)) {
+
+		if (ai_difficulty == AI_DIFFICULTY::EASY) {
+			ai_difficulty = AI_DIFFICULTY::NORMAL;
+		} else if (ai_difficulty == AI_DIFFICULTY::NORMAL) {
+			ai_difficulty = AI_DIFFICULTY::HARD;
+		} else if (ai_difficulty == AI_DIFFICULTY::HARD) {
+			ai_difficulty = AI_DIFFICULTY::EASY;
+		}
+	}
 
 	if (ai_difficulty == AI_DIFFICULTY::EASY) {
 		StrafeUpAndDown(entity, delta);
-		AimAtPlayer(entity);
+		SpinTurret(entity, delta);
 		AutoAttack(entity, delta);
 	}
 	else if (ai_difficulty == AI_DIFFICULTY::NORMAL) {
+		StrafeUpAndDown(entity, delta);
+		AimAtPlayer(entity);
 		AutoAttack(entity, delta);
 	}
 	else if (ai_difficulty == AI_DIFFICULTY::HARD) {
@@ -222,29 +236,23 @@ void PaddleTankAIControlledEntityState::AimAtPlayer(PaddleTankGameEntity *entity
 }
 
 void PaddleTankAIControlledEntityState::AutoAttack(PaddleTankGameEntity *entity, float delta) {
+	
 	if (M_CurrentShotTime <= M_AttackCycle) {
 		M_CurrentShotTime += delta;
 	}
-	else {
+	else 
+	{
 		if (entity->IsShotReady() && entity->BulletsInMagazine() && (entity->getStats()->getPower() > 0.0f)) {
-			entity->Shoot();
-			M_CurrentShotTime = 0.0f;
+		entity->Shoot();
+		M_CurrentShotTime = 0.0f;
 		}
 	}
 }
 
-void PaddleTankAIControlledEntityState::BurstAttack(PaddleTankGameEntity *entity, float delta) {
-	if (M_CurrentShotTime <= M_AttackCycle) {
-		M_CurrentShotTime += delta;
-	}
-	else {
-		if (entity->IsShotReady() && entity->BulletsInMagazine() && (entity->getStats()->getPower() > 0.0f)) {
-			entity->Shoot();
-			M_CurrentShotTime = 0.0f;
-		}
-	}
+void PaddleTankAIControlledEntityState::SpinTurret(PaddleTankGameEntity *entity, float delta) {
+	entity->SetTurretAngle(DEGREES_PER_RADIANS * YOLO_360_BLAZE_IT);
+	YOLO_360_BLAZE_IT += delta;
 }
-
 
 #pragma endregion
 
