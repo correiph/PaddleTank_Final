@@ -326,12 +326,12 @@ void Map::Update(float delta) {
 	m_world->Step(delta, 6, 2);
 	//Update the tanks.
 	for (std::size_t i = 0; i < m_tanks.size(); i++) {
-		/*if (m_tanks[i]->IsTagged())
+		if (m_tanks[i]->IsTagged())
 		{
 			delete m_tanks[i];
 			m_tanks.erase(std::remove(m_tanks.begin(), m_tanks.end(), m_tanks[i]), m_tanks.end());
 		}
-		else*/
+		else
 			m_tanks[i]->Update(delta);
 	}
 	//Update the bullets unless they have been tagged, in which case
@@ -344,9 +344,7 @@ void Map::Update(float delta) {
 			(*it)->Update(delta);
 			it++;
 		}
-		
 	}
-
 	for (auto it = m_powerups.begin(); it != m_powerups.end();) {
 		if ((*it)->IsTagged()) {
 			delete *it;
@@ -395,7 +393,8 @@ bool Map::HandleMessage(const Telegram& msg) {
 		
 		b2Body *bullBod = m_world->CreateBody(&bulldef);
 		Box2DGameEntity *bullet = new Box2DGameEntity(*bullBod, *m_ta, "bulletSilverSilver_outline.png", Box2DGameEntity::CIRCLE, 1.0f, 1.0f, true);
-
+		int sender = msg.Sender;
+		bullBod->GetFixtureList()->SetUserData(&sender);
 		m_bullets.push_back(bullet);
 		//Now that the telegram has been delivered, make sure you delete the extra info.
 		delete (SpawnBulletData *)msg.ExtraInfo;
@@ -411,12 +410,8 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//Draw background tiles
 	target.draw(*m_background, states);
 	//Draw the scores.
-	for (std::size_t i = 0; i < 2; i++) {
-		target.draw(*(ScoreGameEntity *)m_boundaries[i]->GetUserData(), states);
-	}
-	for (std::size_t i = 0; i < m_stats.size(); i++) {
-		target.draw(*(TankStatsGameEntity *)m_stats[i], states);
-	}
+	
+	
 
 	//Draw static obstacles
 	for (std::size_t i = 0; i < m_obstacles.size(); i++) {
@@ -435,6 +430,12 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//Draw Power-ups
 	for (std::size_t i = 0; i < m_powerups.size(); i++) {
 		target.draw(*(m_powerups[i]), states);
+	}
+	for (std::size_t i = 0; i < 2; i++) {
+		target.draw(*(ScoreGameEntity *)m_boundaries[i]->GetUserData(), states);
+	}
+	for (std::size_t i = 0; i < m_stats.size(); i++) {
+		target.draw(*(TankStatsGameEntity *)m_stats[i], states);
 	}
 }
 

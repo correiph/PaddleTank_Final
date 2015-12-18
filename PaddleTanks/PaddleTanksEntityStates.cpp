@@ -126,6 +126,7 @@ void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity, f
 	{
 		entity->getStats()->RegenerateHealth(HEALTH_REGEN_RATE);
 		entity->getStats()->RegeneratePower(POWER_REGEN_RATE);
+		
 	}
 }
 

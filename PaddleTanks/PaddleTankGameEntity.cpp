@@ -17,6 +17,7 @@ PaddleTankGameEntity::PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, st
 	: Box2DGameEntity(body, atlas, tankSpriteName, FixtureType::RECT, density), m_stateMachine(nullptr),
 	m_barrelSprite(nullptr), m_mapEntID(-1), m_shotReady(true), m_magazine(5)
 {
+	UnTag();
 	this->SetEntityType(PADDLE_TANK_ENTITY);
 	//Set the sprite to the correct position. Don't forget to convert units.
 	m_barrelSprite = new sf::Sprite(*atlas.GetSprite(barrelSpriteName));
@@ -51,6 +52,7 @@ PaddleTankGameEntity::~PaddleTankGameEntity()
 	//clean up.
 	delete m_barrelSprite;
 	delete m_stateMachine;
+	delete m_stats;
 }
 
 void PaddleTankGameEntity::Update(float delta) {
@@ -58,6 +60,11 @@ void PaddleTankGameEntity::Update(float delta) {
 	// tank body sprites position based on the box2d bodies position. 
 	if (shotCoolDown > 0.0f)
 		shotCoolDown -= delta;
+
+	if (m_stats->getHealth() <= 0.0f)
+	{
+		Tag();
+	}
 	Box2DGameEntity::Update(delta);
 	//Set the barrel to the correct position.
 	m_barrelSprite->setPosition(m_sprite->getPosition());
