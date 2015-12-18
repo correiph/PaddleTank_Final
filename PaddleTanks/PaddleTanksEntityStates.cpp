@@ -117,11 +117,12 @@ void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity, f
 		//Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);
 		m_notIdle = true;
 	}
+
 	if (m_notIdle)
 	{
 		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);
 	}
-	else
+	else if (m_notIdle == false && (entity->getShotCoolDown() <= 0.0f))
 	{
 		entity->getStats()->RegenerateHealth(HEALTH_REGEN_RATE);
 		entity->getStats()->RegeneratePower(POWER_REGEN_RATE);

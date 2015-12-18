@@ -46,8 +46,6 @@ public:
 		m_mapEntID = eid;
 	}
 
-	
-
 	//Get the state machine - used for changing states.
 	StateMachine<PaddleTankGameEntity>* GetFSM() const { 
 		return m_stateMachine; 
@@ -79,9 +77,12 @@ public:
 	void Shoot();
 
 	void HealthStat(int health);
-
+	const float getShotCoolDown(){
+		return shotCoolDown;
+	}
 protected:
 	StateMachine<PaddleTankGameEntity> *m_stateMachine;
+	float shotCoolDown;
 	//Render the sprite.
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite *m_barrelSprite;
