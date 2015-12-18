@@ -147,6 +147,8 @@ void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, fl
 	
 	StrafeUpAndDown(entity, delta);
 	AimAtPlayer(entity);
+	Attack(entity, delta);
+
 
 	// Dispatcher->DispatchDelayedMessages(delta);
 
@@ -164,21 +166,21 @@ bool PaddleTankAIControlledEntityState::OnMessage(PaddleTankGameEntity *entity, 
 }
 
 void PaddleTankAIControlledEntityState::StrafeUpAndDown(PaddleTankGameEntity *entity, float delta) {
-	M_RANDOMFORCEDURATION = LOW_VALUE + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HIGH_VALUE - LOW_VALUE)));
+	M_RandomForceDuration = LOW_VALUE + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HIGH_VALUE - LOW_VALUE)));
 
 
-	if (M_CURRENTTIME <= M_STRAFETIME) {
-		M_CURRENTTIME += delta;
+	if (M_CurrentTime <= M_StrafeTime) {
+		M_CurrentTime += delta;
 	}
 	else {
-		if (M_CURRENTFORCETIME < M_APPLYFORCEDURATION) {
-			entity->ApplyLinearImpulse(b2Vec2(0.0f, M_STRAFEDIRECTION * -PADDLE_TANK_IMPULSE_POWER));
-			M_CURRENTFORCETIME += delta;
+		if (M_CurrentForceTime < M_ApplyForceDuration) {
+			entity->ApplyLinearImpulse(b2Vec2(0.0f, M_StrafeDirection * -PADDLE_TANK_IMPULSE_POWER));
+			M_CurrentForceTime += delta;
 		}
 		else {
-			M_STRAFEDIRECTION *= -1;
-			M_CURRENTTIME = 0.0f;
-			M_CURRENTFORCETIME = 0.0f - M_RANDOMFORCEDURATION;
+			M_StrafeDirection *= -1;
+			M_CurrentTime = 0.0f;
+			M_CurrentForceTime = 0.0f - M_RandomForceDuration;
 		}
 	}
 }
@@ -192,6 +194,15 @@ void PaddleTankAIControlledEntityState::AimAtPlayer(PaddleTankGameEntity *entity
 	entity->SetTurretAngle(angleRads);
 }
 
+void PaddleTankAIControlledEntityState::Attack(PaddleTankGameEntity *entity, float delta) {
+	if (M_CurrentShotTime <= M_AttackCycle) {
+		M_CurrentShotTime += delta;
+	}
+	else {
+		entity->Shoot();
+		M_CurrentShotTime = 0.0f;
+	}
+}
 
 
 #pragma endregion
