@@ -63,6 +63,9 @@ bool PaddleTankGameEntity::HandleMessage(const Telegram& msg) {
 	case message_type::TOIDLE:
 		m_stateMachine->ChangeState(PaddleTankHumanControlledIdleState::Instance());
 		return true;
+	case message_type::HIT:
+		m_stats->LoseHealth();
+		return true;
 	default:
 		//You remember how the short circuiting works on the logical or right?
 		return m_stateMachine->HandleMessage(msg) || Box2DGameEntity::HandleMessage(msg);
@@ -90,6 +93,7 @@ void PaddleTankGameEntity::Shoot() {
 	float barrelDirRads = m_barrelSprite->getRotation() * RADIANS_PER_DEGREES;
 	sf::Vector2f normBdir(std::cos(barrelDirRads), std::sin(barrelDirRads));
 	m_shotReady = false;
+	m_stats->LosePower();
 	SpawnBulletData *spawnData = new SpawnBulletData();
 	//The +18 is to account for the fact that if you spawn the bullet such that it's centroid is at the
 	// far top of the barrel of the tank gun, the bullet may immediately hit the tank when the barrel is

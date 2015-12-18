@@ -1,6 +1,6 @@
 #pragma once
 #include "Box2DGameEntity.h"
-
+#include "TankStatsGameEntity.h"
 struct b2Vec2;
 
 class Map;
@@ -44,6 +44,8 @@ public:
 	void SetMapEntityID(int eid) {
 		m_mapEntID = eid;
 	}
+
+	TankStatsGameEntity *m_stats;
 
 	//Get the state machine - used for changing states.
 	StateMachine<PaddleTankGameEntity>* GetFSM() const { 

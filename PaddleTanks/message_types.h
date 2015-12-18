@@ -8,6 +8,7 @@ namespace message_type {
 		RELOAD = 3,
 		TOIDLE = 4,
 		TOACTIVE = 5,
+		HIT = 6,
 	};
 };
 
