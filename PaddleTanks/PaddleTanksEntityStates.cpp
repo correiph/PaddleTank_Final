@@ -162,7 +162,7 @@ void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
 	
-	if (G_InputManager.isKeyDown(sf::Keyboard::M)) {
+	if (G_InputManager.wasKeyPressed(sf::Keyboard::M)) {
 
 		if (ai_difficulty == AI_DIFFICULTY::EASY) {
 			ai_difficulty = AI_DIFFICULTY::NORMAL;
