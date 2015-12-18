@@ -73,6 +73,8 @@ public:
 	// regardless of the value.
 	void Shoot();
 
+	void HealthStat(int health);
+
 protected:
 	StateMachine<PaddleTankGameEntity> *m_stateMachine;
 	//Render the sprite.

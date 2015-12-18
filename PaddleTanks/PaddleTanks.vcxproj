@@ -18,6 +18,7 @@
     <ClInclude Include="PlayGameState.h" />
     <ClInclude Include="PowerUpEntity.h" />
     <ClInclude Include="ScoreGameEntity.h" />
+    <ClInclude Include="TankStatsGameEntity.h" />
     <ClInclude Include="TiledBackground.h" />
     <ClInclude Include="Box2DGameEntity.h" />
     <ClInclude Include="Common\Entities\BaseGameEntity.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="PlayGameState.cpp" />
     <ClCompile Include="PowerUpEntity.cpp" />
     <ClCompile Include="ScoreGameEntity.cpp" />
+    <ClCompile Include="TankStatsGameEntity.cpp" />
     <ClCompile Include="TiledBackground.cpp" />
     <ClCompile Include="Box2DGameEntity.cpp" />
     <ClCompile Include="Common\Entities\BaseGameEntity.cpp" />

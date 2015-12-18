@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "Messaging\MessageDispatcher.h"
 #include "message_types.h"
+#include "time.h"
 
 #include <Box2D/Box2D.h>
 
@@ -139,10 +140,30 @@ bool PaddleTankHumanControlledIdleState::OnMessage(PaddleTankGameEntity *entity,
 
 //this is the states normal update function
 void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
-
+	srand(time(NULL));
 }
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
+	
+	M_RANDOMFORCEDURATION = LOW_VALUE + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HIGH_VALUE - LOW_VALUE)));
+	
+
+	if (M_CURRENTTIME <= M_STRAFETIME) {
+		M_CURRENTTIME += delta;
+	}
+	else {
+		if (M_CURRENTFORCETIME < M_APPLYFORCEDURATION) {
+			entity->ApplyLinearImpulse(b2Vec2(0.0f, M_STRAFEDIRECTION * -PADDLE_TANK_IMPULSE_POWER));
+			M_CURRENTFORCETIME += delta;
+		} else {
+			M_STRAFEDIRECTION *= -1;
+			M_CURRENTTIME = 0.0f;
+			M_CURRENTFORCETIME = 0.0f - M_RANDOMFORCEDURATION;
+			std::cout << M_RANDOMFORCEDURATION << std::endl;
+		}
+	}
+
+	// Dispatcher->DispatchDelayedMessages(delta);
 
 }
 
