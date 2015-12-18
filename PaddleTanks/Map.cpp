@@ -16,6 +16,8 @@
 #include "ScoreGameEntity.h"
 #include "tinyxml/tinyxml2.h"
 
+
+
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
@@ -292,22 +294,6 @@ bool Map::loadFromFile(std::string const &filename) {
 			tankBodOne->SetUserData(new std::vector<void *>);
 		}
 	}
-
-	{
-
-		sf::Vector2f powerUpPos;
-		powerUpPos.x = 400;
-		sf::Time time;
-		srand(time.asMilliseconds());
-		powerUpPos.y = 200 * (rand() % 2 + 1);
-		b2BodyDef powerUpBdDef;
-		powerUpBdDef.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * powerUpPos);
-		powerUpBdDef.type = b2_dynamicBody;
-
-		b2Body *powerUpBd = m_world->CreateBody(&powerUpBdDef);
-		PowerUpEntity *powerup = new PowerUpEntity(*powerUpBd, *m_ta, "barrelGreen_up.png");
-		m_powerups.push_back(powerup);
-	}
 	return true;
 }
 
@@ -348,6 +334,27 @@ void Map::Update(float delta) {
 			it++;
 		}
 
+	}
+	if (m_powerups.size() <= 0){
+		spwanInterval += delta;
+		if (spwanInterval > 10.0f){
+			srand(time(NULL));
+			int randVal = (rand() % 2);
+			if (randVal == 1){
+				sf::Vector2f powerUpPos;
+				powerUpPos.x = 400;
+				powerUpPos.y = 200 * (rand() % 2 + 1);
+				b2BodyDef powerUpBdDef;
+				powerUpBdDef.position = vec2utils::ConvertVectorType<sf::Vector2f, b2Vec2>(METERS_PER_PIXEL * powerUpPos);
+				powerUpBdDef.type = b2_dynamicBody;
+
+				b2Body *powerUpBd = m_world->CreateBody(&powerUpBdDef);
+				PowerUpEntity *powerup = new PowerUpEntity(*powerUpBd, *m_ta, "barrelGreen_up.png");
+				m_powerups.push_back(powerup);
+			}
+			std::cout << randVal << std::endl;
+			spwanInterval = 0.0f;
+		}
 	}
 }
 
