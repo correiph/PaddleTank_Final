@@ -100,7 +100,7 @@ void PaddleTankHumanControlledIdleState::Execute(PaddleTankGameEntity *entity, f
 		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY, 0, entity->ID(), message_type::TOACTIVE, nullptr);
 	}
 	//Get the mouse position and calculate the correct angle for the turret
-	sf::Vector2f mousePos = sf::Vector2f(0.0f,0.0f);//vec2utils::ConvertVectorType<sf::Vector2i, sf::Vector2f>(G_InputManager.mousePosition());
+	sf::Vector2f mousePos = vec2utils::ConvertVectorType<sf::Vector2i, sf::Vector2f>(G_InputManager.mousePosition());
 	sf::Vector2f tankPos = entity->GetPosition();
 	sf::Vector2f bdir = mousePos - tankPos;
 	sf::Vector2f normBdir = vec2utils::NormalOf<sf::Vector2f, sf::Vector2f>(bdir);
