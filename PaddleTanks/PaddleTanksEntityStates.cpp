@@ -144,7 +144,24 @@ void PaddleTankAIControlledEntityState::Enter(PaddleTankGameEntity *entity) {
 }
 
 void PaddleTankAIControlledEntityState::Execute(PaddleTankGameEntity *entity, float delta) {
-	
+
+	if (M_CURRENTTIME <= M_STRAFETIME) {
+		M_CURRENTTIME += delta;
+		std::cout << M_CURRENTTIME << std::endl;
+	}
+	else {
+		if (M_CURRENTFORCETIME < M_APPLYFORCEDURATION) {
+			entity->ApplyLinearImpulse(b2Vec2(0.0f, M_STRAFEDIRECTION * -PADDLE_TANK_IMPULSE_POWER));
+			M_CURRENTFORCETIME += delta;
+		} else {
+			M_STRAFEDIRECTION *= -1;
+			M_CURRENTTIME = 0.0f;
+			M_CURRENTFORCETIME = 0.0f - M_APPLYFORCEDURATION;
+		}
+	}
+
+	// Dispatcher->DispatchDelayedMessages(delta);
+
 }
 
 //this will execute when the state is exited. 
