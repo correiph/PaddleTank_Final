@@ -109,6 +109,9 @@ private:
 	float LOW_VALUE = 0.0f;
 	float HIGH_VALUE = 1.0f;
 
+	void StrafeUpAndDown(PaddleTankGameEntity *entity, float delta);
+	void AimAtPlayer(PaddleTankGameEntity *entity);
+
 public:
 	static PaddleTankAIControlledEntityState *Instance() {
 		static PaddleTankAIControlledEntityState instance;
@@ -120,6 +123,8 @@ public:
 	//this will execute when the state is entered
 	// Registers Up, Down, and Space.
 	void Enter(PaddleTankGameEntity*);
+
+	
 
 	//this is the states normal update function
 	virtual void Execute(PaddleTankGameEntity*, float delta);
