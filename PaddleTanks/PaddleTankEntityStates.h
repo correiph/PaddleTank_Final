@@ -113,6 +113,7 @@ private:
 	float	YOLO_360_BLAZE_IT = 0.0f;
 
 	enum AI_DIFFICULTY { EASY, NORMAL, HARD };
+	AI_DIFFICULTY ai_difficulty;
 
 	void StrafeUpAndDown(PaddleTankGameEntity *entity, float delta);
 	void AimAtPlayer(PaddleTankGameEntity *entity);
