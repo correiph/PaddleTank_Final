@@ -105,13 +105,13 @@ bool Map::loadFromFile(std::string const &filename) {
 	int mapHeightPx = mapEl->IntAttribute("height");
 	float mapWidthMet = mapWidthPx * METERS_PER_PIXEL;
 	float mapHeightMet = mapHeightPx * METERS_PER_PIXEL;
-
+	b2Body *lbod, *rbod;
 	//Create the scoring zones and the score entities.
 	{
 		b2BodyDef ldef;
 		ldef.position.Set(BOUNDARY_WALLS_HEIGHT * 0.5f, mapHeightMet * 0.5f);
 		ldef.type = b2_staticBody;
-		b2Body *lbod = m_world->CreateBody(&ldef);
+		lbod = m_world->CreateBody(&ldef);
 		b2PolygonShape shp;
 		shp.SetAsBox(BOUNDARY_WALLS_HEIGHT * 0.5f, mapHeightMet * 0.5f);
 		b2FixtureDef fdef;
@@ -124,7 +124,7 @@ bool Map::loadFromFile(std::string const &filename) {
 		m_boundaries.push_back(lbod);
 
 		ldef.position.x = mapWidthMet - BOUNDARY_WALLS_HEIGHT * 0.5f;
-		b2Body *rbod = m_world->CreateBody(&ldef);
+		rbod = m_world->CreateBody(&ldef);
 		rbod->CreateFixture(&fdef);
 		//The left scoring entity gets associated with the right scoring wall.
 		ScoreGameEntity *lge = new ScoreGameEntity(sf::Vector2f(mapWidthPx * 0.5f - 50, 25), sf::Color::Red);
@@ -302,6 +302,8 @@ bool Map::loadFromFile(std::string const &filename) {
 			userdataleft->push_back(tankBodOne->GetUserData());
 			userdataleft->push_back(ltsge);*/
 			//tankBodOne->SetUserData(tankTwo);
+			lbod->GetFixtureList()->SetUserData(tankOne);
+			rbod->GetFixtureList()->SetUserData(tankTwo);
 		}
 		else
 		{
@@ -315,7 +317,10 @@ bool Map::loadFromFile(std::string const &filename) {
 			//tankBodOne->SetUserData(tankTwo);
 			/*userdataleft->push_back(ltsge);*/
 			//tankBodTwo->SetUserData(tankOne);
+			lbod->GetFixtureList()->SetUserData(tankTwo);
+			rbod->GetFixtureList()->SetUserData(tankOne);
 		}
+		
 	}
 	return true;
 }
@@ -597,7 +602,12 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		fix1 = fix2;
 		fix2 = temp;
 	case (Contacts::SCORING_WALL_A | Contacts::POWERUP_B) :
-
+		if (((PowerUpEntity *)fix2->GetBody()->GetUserData())->GetPowerUpType() == PowerUpEntity::GOOD_POWERUP){
+		((PaddleTankGameEntity *)fix1->GetUserData())->RegenHealth();
+		}
+		else if (((PowerUpEntity *)fix2->GetBody()->GetUserData())->GetPowerUpType() == PowerUpEntity::BAD_POWERUP){
+			((PaddleTankGameEntity *)fix1->GetUserData())->MakePowerZero();
+		}
 		// tag bullet for destruction.
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
 		break;
