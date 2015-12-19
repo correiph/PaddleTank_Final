@@ -336,7 +336,7 @@ void Map::Update(float delta) {
 	}
 	for each (PaddleTankGameEntity* tank in m_tanks)
 	{
-		if (tank->IsTagged())
+		/*if (tank->IsTagged())
 		{
 			if (std::find(m_tanks.begin(), m_tanks.end(), tank) != m_tanks.end())
 			{
@@ -345,10 +345,9 @@ void Map::Update(float delta) {
 				break;
 			}
 		}
-		else
-		{
+		else*/
 			tank->Update(delta);
-		}
+		
 	}
 	*/
 	for (auto it = m_tanks.begin(); it != m_tanks.end();) {
@@ -539,8 +538,8 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 	b2Fixture *fix2 = contact->GetFixtureB();
 	int c = Contacts::GetContacts(fix1, fix2);
 	b2Fixture *temp;
-	std::vector<void *> *udata;
-	TankStatsGameEntity *statToChange;
+	/*std::vector<void *> *udata;
+	TankStatsGameEntity *statToChange;*/
 	switch (c) {
 	case (Contacts::SCORING_WALL_B | Contacts::BULLET_A) :
 		//Swap fixtures
