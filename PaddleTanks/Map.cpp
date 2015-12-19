@@ -336,7 +336,7 @@ void Map::Update(float delta) {
 	}
 	for each (PaddleTankGameEntity* tank in m_tanks)
 	{
-		/*if (tank->IsTagged())
+		if (tank->IsTagged())
 		{
 			if (std::find(m_tanks.begin(), m_tanks.end(), tank) != m_tanks.end())
 			{
@@ -345,9 +345,8 @@ void Map::Update(float delta) {
 				break;
 			}
 		}
-		else*/
+		else
 			tank->Update(delta);
-		
 	}
 	*/
 	for (auto it = m_tanks.begin(); it != m_tanks.end();) {
