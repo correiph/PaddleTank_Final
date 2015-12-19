@@ -333,7 +333,7 @@ void Map::Update(float delta) {
 		}
 		else
 			m_tanks[i]->Update(delta);
-	}*/
+	}
 	for each (PaddleTankGameEntity* tank in m_tanks)
 	{
 		if (tank->IsTagged())
@@ -348,6 +348,17 @@ void Map::Update(float delta) {
 		else
 		{
 			tank->Update(delta);
+		}
+	}
+	*/
+	for (auto it = m_tanks.begin(); it != m_tanks.end();) {
+		if ((*it)->IsTagged()) {
+			delete *it;
+			it = m_tanks.erase(it);
+		}
+		else {
+			(*it)->Update(delta);
+			it++;
 		}
 	}
 	//Update the bullets unless they have been tagged, in which case
@@ -389,7 +400,6 @@ void Map::Update(float delta) {
 				PowerUpEntity *powerup = new PowerUpEntity(*powerUpBd, *m_ta, "barrelGreen_up.png");
 				m_powerups.push_back(powerup);
 			}
-			std::cout << randVal << std::endl;
 			spwanInterval = 0.0f;
 		}
 	}
