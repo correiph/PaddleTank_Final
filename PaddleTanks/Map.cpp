@@ -345,7 +345,7 @@ void Map::Update(float delta) {
 				break;
 			}
 		}
-		else*/
+		else
 			tank->Update(delta);
 		
 	}
@@ -575,9 +575,12 @@ void MapContactListener::BeginContact(b2Contact* contact) {
 		fix1 = fix2;
 		fix2 = temp;
 	case (Contacts::TANK_A | Contacts::POWERUP_B) :
-		// send message to points for appropriate team.
-		// tag bullet for destruction.
-		//((BaseGameEntity *)fix1->GetBody()->GetUserData())->
+		if (((PowerUpEntity *)fix2->GetBody()->GetUserData())->GetPowerUpType() == PowerUpEntity::GOOD_POWERUP){
+			((PaddleTankGameEntity *)fix1->GetBody()->GetUserData())->RegenHealth();
+		}
+		else if (((PowerUpEntity *)fix2->GetBody()->GetUserData())->GetPowerUpType() == PowerUpEntity::BAD_POWERUP){
+			((PaddleTankGameEntity *)fix1->GetBody()->GetUserData())->MakePowerZero();
+		}
 		((BaseGameEntity *)fix2->GetBody()->GetUserData())->Tag();
 		break;
 	case (Contacts::POWERUP_B | Contacts::BULLET_A) :

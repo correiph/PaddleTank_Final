@@ -11,7 +11,6 @@ PowerUpEntity::PowerUpEntity(b2Body &body, TextureAtlas &atlas, std::string cons
 	: Box2DGameEntity(body, atlas, powerUpSpriteName, FixtureType::RECT, density)
 {
 	this->SetEntityType(POWERUP_ENTITY);
-	EntityMgr->RegisterEntity(this);
 	
 	//Randomize the type of powerup
 	srand(time(NULL));
