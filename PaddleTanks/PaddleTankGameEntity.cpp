@@ -49,9 +49,11 @@ PaddleTankGameEntity::PaddleTankGameEntity(b2Body &body, TextureAtlas &atlas, st
 PaddleTankGameEntity::~PaddleTankGameEntity()
 {
 	//clean up.
+	//m_stateMachine->CurrentState()->Exit(this);
 	delete m_barrelSprite;
 	delete m_stateMachine;
 	delete m_stats;
+
 }
 
 void PaddleTankGameEntity::Update(float delta) {
