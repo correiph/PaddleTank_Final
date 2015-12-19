@@ -43,8 +43,9 @@ public:
 
 	//power management
 	void RegeneratePower(float val) {
-		if (!(m_power >= 100))
+		if (!(m_power >= 100)){
 			m_power += val;
+		}
 		regenPower();
 	}
 	void LosePower(float val) {
@@ -58,9 +59,18 @@ public:
 		regenHealth();
 	}
 	void RegenerateHealth(float val) {
-		if (!(m_health >= 100))
+		if (!(m_health >= 100)){
 			m_health += val;
+		}
+		if (val + m_health){
+			m_health = 100.0f;
+		}
 		regenHealth();
+	}
+
+	void powerToZero(){
+		m_power = 0.0f;
+		regenPower();
 	}
 
 	//getters and setters

@@ -75,7 +75,8 @@ public:
 	// imposed by m_shotReady - it will spawn a bullet if called
 	// regardless of the value.
 	void Shoot();
-
+	void RegenHealth(){ m_stats->RegenerateHealth(100); };
+	void MakePowerZero() { m_stats->powerToZero(); };
 	void HealthStat(int health);
 	const float getShotCoolDown(){
 		return shotCoolDown;

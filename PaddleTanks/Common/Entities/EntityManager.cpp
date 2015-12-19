@@ -8,20 +8,20 @@
 //-----------------------------------------------------------------------------
 EntityManager* EntityManager::Instance()
 {
-  static EntityManager instance;
+	static EntityManager instance;
 
-  return &instance;
+	return &instance;
 }
 
 //------------------------- GetEntityFromID -----------------------------------
 //-----------------------------------------------------------------------------
 BaseGameEntity* EntityManager::GetEntityFromID(int id)const
 {
-  //find the entity
-  EntityMap::const_iterator ent = m_EntityMap.find(id);
+	//find the entity
+	EntityMap::const_iterator ent = m_EntityMap.find(id);
 
-  //assert that the entity is a member of the map
-  //assert ( (ent !=  m_EntityMap.end()) && "<EntityManager::GetEntityFromID>: invalid ID");
+	//assert that the entity is a member of the map
+	assert ( (ent !=  m_EntityMap.end()) && "<EntityManager::GetEntityFromID>: invalid ID");
 
   return ent->second;
 }
